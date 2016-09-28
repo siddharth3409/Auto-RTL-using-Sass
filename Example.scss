@@ -1,0 +1,6 @@
+  /*usage of the mixin in your sass file*/
+
+padding-top: calc-rem(180);
+padding-#{$side1}: calc-rem(40);
+padding: shorthand-props(11, 20, 0, 20);
+float:{$side1}
