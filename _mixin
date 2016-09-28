@@ -1,0 +1,15 @@
+
+/*this has to go into the mixin file */
+
+@function calc-percent($target, $container) {
+  @return ($target / $container) * 100%;
+}
+@function calc-rem($size) {
+  @return ($size / $base-font-size) + rem;
+}
+@function calc-em($lineheight, $size) {
+  @return ($lineheight / $size) + em;
+}
+@function shorthand-props($param1, $param2, $param3, $param4, $container: 940) {
+	@return calc-rem($param1)+' '+ calc-percent($param2, $container)+' '+ calc-rem($param3)+' '+ calc-percent($param4, $container);
+}
