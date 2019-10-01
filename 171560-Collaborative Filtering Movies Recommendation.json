@@ -1,0 +1,1137 @@
+{
+  "paragraphs": [
+    {
+      "title": "Instructions",
+      "text": "%md\n1) This notebook is based on the blog https://www.codementor.io/jadianes/building-a-recommender-with-apache-spark-python-example-app-part1\n\n2) Dataset: GroupLens Research has collected and made available rating data sets from the MovieLens web site (http://movielens.org).\n\n3) To use pyspark, we have two options. Either use %pyspark as the first line in each paragrpah or in the Interpreter settings, change the proprty to the following:\n    zeppelin.default.interpreter    pyspark",
+      "user": "sperambalam@qubole.com",
+      "dateUpdated": "Jan 12, 2018 8:53:55 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "title": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1494478084340_-436651863",
+      "id": "20170511-044804_598697683_q_SK2G716GQN1568359835",
+      "result": {
+        "code": "SUCCESS",
+        "type": "HTML",
+        "msg": "\u003cp\u003e1) This notebook is based on the blog https://www.codementor.io/jadianes/building-a-recommender-with-apache-spark-python-example-app-part1\u003c/p\u003e\n\u003cp\u003e2) Dataset: GroupLens Research has collected and made available rating data sets from the MovieLens web site (http://movielens.org).\u003c/p\u003e\n\u003cp\u003e3) To use pyspark, we have two options. Either use %pyspark as the first line in each paragrpah or in the Interpreter settings, change the proprty to the following:\u003c/p\u003e\n\u003cpre\u003e\u003ccode\u003ezeppelin.default.interpreter    pyspark\n\u003c/code\u003e\u003c/pre\u003e\n"
+      },
+      "dateCreated": "May 11, 2017 4:48:04 AM",
+      "dateStarted": "Jan 12, 2018 8:53:56 PM",
+      "dateFinished": "Jan 12, 2018 8:53:56 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%pyspark\n\nsmall_ratings_raw_data \u003dsc.textFile(\"s3://paid-qubole/moviessmall/ratings.csv\")\nsmall_ratings_raw_data_header \u003d small_ratings_raw_data.take(1)[0]",
+      "user": "sperambalam@qubole.com",
+      "dateUpdated": "Jan 12, 2018 8:53:56 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala",
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "JOB UI",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2Fec2-54-82-120-252.compute-1.amazonaws.com%3A8088%2Fproxy%2Fapplication_1515785680369_0001/jobs/job?spark\u003dtrue\u0026id\u003d282"
+          ],
+          "interpreterSettingId": "2CS4XJSUBnull1501656534060"
+        }
+      },
+      "jobName": "paragraph_1462580036950_-1544523236",
+      "id": "20160507-001356_574339107_q_SK2G716GQN1568359835",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": ""
+      },
+      "dateCreated": "May 7, 2016 12:13:56 AM",
+      "dateStarted": "Jan 12, 2018 8:53:56 PM",
+      "dateFinished": "Jan 12, 2018 8:53:56 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%pyspark\n\nsmall_ratings_data \u003d small_ratings_raw_data.filter(lambda line: line!\u003d small_ratings_raw_data_header)\\\n    .map(lambda line: line.split(\",\")).map(lambda tokens: (tokens[0],tokens[1],tokens[2])).cache()",
+      "user": "sperambalam@qubole.com",
+      "dateUpdated": "Jan 12, 2018 8:53:56 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala",
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1462580197590_-811345074",
+      "id": "20160507-001637_1596473234_q_SK2G716GQN1568359835",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": ""
+      },
+      "dateCreated": "May 7, 2016 12:16:37 AM",
+      "dateStarted": "Jan 12, 2018 8:53:56 PM",
+      "dateFinished": "Jan 12, 2018 8:53:56 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%pyspark\n\nz.show(small_ratings_data.take(10))",
+      "user": "sperambalam@qubole.com",
+      "dateUpdated": "Jan 12, 2018 8:53:56 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala",
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "JOB UI",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2Fec2-54-82-120-252.compute-1.amazonaws.com%3A8088%2Fproxy%2Fapplication_1515785680369_0001/jobs/job?spark\u003dtrue\u0026id\u003d283"
+          ],
+          "interpreterSettingId": "2CS4XJSUBnull1501656534060"
+        }
+      },
+      "jobName": "paragraph_1462580220789_558992590",
+      "id": "20160507-001700_1701443501_q_SK2G716GQN1568359835",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "[(u\u00271\u0027, u\u002731\u0027, u\u00272.5\u0027), (u\u00271\u0027, u\u00271029\u0027, u\u00273.0\u0027), (u\u00271\u0027, u\u00271061\u0027, u\u00273.0\u0027), (u\u00271\u0027, u\u00271129\u0027, u\u00272.0\u0027), (u\u00271\u0027, u\u00271172\u0027, u\u00274.0\u0027), (u\u00271\u0027, u\u00271263\u0027, u\u00272.0\u0027), (u\u00271\u0027, u\u00271287\u0027, u\u00272.0\u0027), (u\u00271\u0027, u\u00271293\u0027, u\u00272.0\u0027), (u\u00271\u0027, u\u00271339\u0027, u\u00273.5\u0027), (u\u00271\u0027, u\u00271343\u0027, u\u00272.0\u0027)]\n"
+      },
+      "dateCreated": "May 7, 2016 12:17:00 AM",
+      "dateStarted": "Jan 12, 2018 8:53:56 PM",
+      "dateFinished": "Jan 12, 2018 8:53:57 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%pyspark\n\nsmall_movies_raw_data \u003d sc.textFile(\"s3://paid-qubole/moviessmall/movies.csv\")\nsmall_movies_raw_data_header \u003d small_movies_raw_data.take(1)[0]\n\nsmall_movies_data \u003d small_movies_raw_data.filter(lambda line: line!\u003dsmall_movies_raw_data_header)\\\n    .map(lambda line: line.split(\",\")).map(lambda tokens: (tokens[0],tokens[1])).cache()\n    \nsmall_movies_data.take(3)",
+      "user": "sperambalam@qubole.com",
+      "dateUpdated": "Jan 12, 2018 8:53:56 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala",
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "JOB UI",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2Fec2-54-82-120-252.compute-1.amazonaws.com%3A8088%2Fproxy%2Fapplication_1515785680369_0001/jobs/job?spark\u003dtrue\u0026id\u003d284",
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2Fec2-54-82-120-252.compute-1.amazonaws.com%3A8088%2Fproxy%2Fapplication_1515785680369_0001/jobs/job?spark\u003dtrue\u0026id\u003d285"
+          ],
+          "interpreterSettingId": "2CS4XJSUBnull1501656534060"
+        }
+      },
+      "jobName": "paragraph_1462580235861_1577068828",
+      "id": "20160507-001715_920316706_q_SK2G716GQN1568359835",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "[(u\u00271\u0027, u\u0027Toy Story (1995)\u0027), (u\u00272\u0027, u\u0027Jumanji (1995)\u0027), (u\u00273\u0027, u\u0027Grumpier Old Men (1995)\u0027)]\n"
+      },
+      "dateCreated": "May 7, 2016 12:17:15 AM",
+      "dateStarted": "Jan 12, 2018 8:53:56 PM",
+      "dateFinished": "Jan 12, 2018 8:53:58 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%pyspark\n\ntraining_RDD, validation_RDD, test_RDD \u003d small_ratings_data.randomSplit([6, 2, 2], seed\u003d0L)\nvalidation_for_predict_RDD \u003d validation_RDD.map(lambda x: (x[0], x[1]))\ntest_for_predict_RDD \u003d test_RDD.map(lambda x: (x[0], x[1]))",
+      "user": "sperambalam@qubole.com",
+      "dateUpdated": "Jan 12, 2018 8:53:56 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala",
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1462580349471_-1258409616",
+      "id": "20160507-001909_1707708517_q_SK2G716GQN1568359835",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": ""
+      },
+      "dateCreated": "May 7, 2016 12:19:09 AM",
+      "dateStarted": "Jan 12, 2018 8:53:58 PM",
+      "dateFinished": "Jan 12, 2018 8:53:58 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%pyspark\n\nfrom pyspark.mllib.recommendation import ALS\nimport math\n\nseed \u003d 5L\niterations \u003d 10\nregularization_parameter \u003d 0.1\nranks \u003d [4, 8, 12]\nerrors \u003d [0, 0, 0]\nerr \u003d 0\ntolerance \u003d 0.02\n\nmin_error \u003d float(\u0027inf\u0027)\nbest_rank \u003d -1\nbest_iteration \u003d -1\nfor rank in ranks:\n    model \u003d ALS.train(training_RDD, rank, seed\u003dseed, iterations\u003diterations,\n                      lambda_\u003dregularization_parameter)\n    predictions \u003d model.predictAll(validation_for_predict_RDD).map(lambda r: ((r[0], r[1]), r[2]))\n    rates_and_preds \u003d validation_RDD.map(lambda r: ((int(r[0]), int(r[1])), float(r[2]))).join(predictions)\n    error \u003d math.sqrt(rates_and_preds.map(lambda r: (r[1][0] - r[1][1])**2).mean())\n    errors[err] \u003d error\n    err +\u003d 1\n    print \u0027For rank %s the RMSE is %s\u0027 % (rank, error)\n    if error \u003c min_error:\n        min_error \u003d error\n        best_rank \u003d rank\n\nprint \u0027The best model was trained with rank %s\u0027 % best_rank",
+      "user": "sperambalam@qubole.com",
+      "dateUpdated": "Jan 12, 2018 8:53:56 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala",
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "JOB UI",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2Fec2-54-82-120-252.compute-1.amazonaws.com%3A8088%2Fproxy%2Fapplication_1515785680369_0001/jobs/job?spark\u003dtrue\u0026id\u003d286",
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2Fec2-54-82-120-252.compute-1.amazonaws.com%3A8088%2Fproxy%2Fapplication_1515785680369_0001/jobs/job?spark\u003dtrue\u0026id\u003d287",
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2Fec2-54-82-120-252.compute-1.amazonaws.com%3A8088%2Fproxy%2Fapplication_1515785680369_0001/jobs/job?spark\u003dtrue\u0026id\u003d288",
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2Fec2-54-82-120-252.compute-1.amazonaws.com%3A8088%2Fproxy%2Fapplication_1515785680369_0001/jobs/job?spark\u003dtrue\u0026id\u003d289",
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2Fec2-54-82-120-252.compute-1.amazonaws.com%3A8088%2Fproxy%2Fapplication_1515785680369_0001/jobs/job?spark\u003dtrue\u0026id\u003d290",
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2Fec2-54-82-120-252.compute-1.amazonaws.com%3A8088%2Fproxy%2Fapplication_1515785680369_0001/jobs/job?spark\u003dtrue\u0026id\u003d291",
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2Fec2-54-82-120-252.compute-1.amazonaws.com%3A8088%2Fproxy%2Fapplication_1515785680369_0001/jobs/job?spark\u003dtrue\u0026id\u003d292",
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2Fec2-54-82-120-252.compute-1.amazonaws.com%3A8088%2Fproxy%2Fapplication_1515785680369_0001/jobs/job?spark\u003dtrue\u0026id\u003d293",
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2Fec2-54-82-120-252.compute-1.amazonaws.com%3A8088%2Fproxy%2Fapplication_1515785680369_0001/jobs/job?spark\u003dtrue\u0026id\u003d294",
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2Fec2-54-82-120-252.compute-1.amazonaws.com%3A8088%2Fproxy%2Fapplication_1515785680369_0001/jobs/job?spark\u003dtrue\u0026id\u003d295",
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2Fec2-54-82-120-252.compute-1.amazonaws.com%3A8088%2Fproxy%2Fapplication_1515785680369_0001/jobs/job?spark\u003dtrue\u0026id\u003d296",
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2Fec2-54-82-120-252.compute-1.amazonaws.com%3A8088%2Fproxy%2Fapplication_1515785680369_0001/jobs/job?spark\u003dtrue\u0026id\u003d297",
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2Fec2-54-82-120-252.compute-1.amazonaws.com%3A8088%2Fproxy%2Fapplication_1515785680369_0001/jobs/job?spark\u003dtrue\u0026id\u003d298",
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2Fec2-54-82-120-252.compute-1.amazonaws.com%3A8088%2Fproxy%2Fapplication_1515785680369_0001/jobs/job?spark\u003dtrue\u0026id\u003d299",
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2Fec2-54-82-120-252.compute-1.amazonaws.com%3A8088%2Fproxy%2Fapplication_1515785680369_0001/jobs/job?spark\u003dtrue\u0026id\u003d300",
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2Fec2-54-82-120-252.compute-1.amazonaws.com%3A8088%2Fproxy%2Fapplication_1515785680369_0001/jobs/job?spark\u003dtrue\u0026id\u003d301",
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2Fec2-54-82-120-252.compute-1.amazonaws.com%3A8088%2Fproxy%2Fapplication_1515785680369_0001/jobs/job?spark\u003dtrue\u0026id\u003d302",
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2Fec2-54-82-120-252.compute-1.amazonaws.com%3A8088%2Fproxy%2Fapplication_1515785680369_0001/jobs/job?spark\u003dtrue\u0026id\u003d303",
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2Fec2-54-82-120-252.compute-1.amazonaws.com%3A8088%2Fproxy%2Fapplication_1515785680369_0001/jobs/job?spark\u003dtrue\u0026id\u003d304",
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2Fec2-54-82-120-252.compute-1.amazonaws.com%3A8088%2Fproxy%2Fapplication_1515785680369_0001/jobs/job?spark\u003dtrue\u0026id\u003d305",
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2Fec2-54-82-120-252.compute-1.amazonaws.com%3A8088%2Fproxy%2Fapplication_1515785680369_0001/jobs/job?spark\u003dtrue\u0026id\u003d306",
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2Fec2-54-82-120-252.compute-1.amazonaws.com%3A8088%2Fproxy%2Fapplication_1515785680369_0001/jobs/job?spark\u003dtrue\u0026id\u003d307",
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2Fec2-54-82-120-252.compute-1.amazonaws.com%3A8088%2Fproxy%2Fapplication_1515785680369_0001/jobs/job?spark\u003dtrue\u0026id\u003d308",
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2Fec2-54-82-120-252.compute-1.amazonaws.com%3A8088%2Fproxy%2Fapplication_1515785680369_0001/jobs/job?spark\u003dtrue\u0026id\u003d309",
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2Fec2-54-82-120-252.compute-1.amazonaws.com%3A8088%2Fproxy%2Fapplication_1515785680369_0001/jobs/job?spark\u003dtrue\u0026id\u003d310",
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2Fec2-54-82-120-252.compute-1.amazonaws.com%3A8088%2Fproxy%2Fapplication_1515785680369_0001/jobs/job?spark\u003dtrue\u0026id\u003d311",
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2Fec2-54-82-120-252.compute-1.amazonaws.com%3A8088%2Fproxy%2Fapplication_1515785680369_0001/jobs/job?spark\u003dtrue\u0026id\u003d312",
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2Fec2-54-82-120-252.compute-1.amazonaws.com%3A8088%2Fproxy%2Fapplication_1515785680369_0001/jobs/job?spark\u003dtrue\u0026id\u003d313",
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2Fec2-54-82-120-252.compute-1.amazonaws.com%3A8088%2Fproxy%2Fapplication_1515785680369_0001/jobs/job?spark\u003dtrue\u0026id\u003d314",
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2Fec2-54-82-120-252.compute-1.amazonaws.com%3A8088%2Fproxy%2Fapplication_1515785680369_0001/jobs/job?spark\u003dtrue\u0026id\u003d315",
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2Fec2-54-82-120-252.compute-1.amazonaws.com%3A8088%2Fproxy%2Fapplication_1515785680369_0001/jobs/job?spark\u003dtrue\u0026id\u003d316",
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2Fec2-54-82-120-252.compute-1.amazonaws.com%3A8088%2Fproxy%2Fapplication_1515785680369_0001/jobs/job?spark\u003dtrue\u0026id\u003d317",
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2Fec2-54-82-120-252.compute-1.amazonaws.com%3A8088%2Fproxy%2Fapplication_1515785680369_0001/jobs/job?spark\u003dtrue\u0026id\u003d318",
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2Fec2-54-82-120-252.compute-1.amazonaws.com%3A8088%2Fproxy%2Fapplication_1515785680369_0001/jobs/job?spark\u003dtrue\u0026id\u003d319",
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2Fec2-54-82-120-252.compute-1.amazonaws.com%3A8088%2Fproxy%2Fapplication_1515785680369_0001/jobs/job?spark\u003dtrue\u0026id\u003d320",
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2Fec2-54-82-120-252.compute-1.amazonaws.com%3A8088%2Fproxy%2Fapplication_1515785680369_0001/jobs/job?spark\u003dtrue\u0026id\u003d321"
+          ],
+          "interpreterSettingId": "2CS4XJSUBnull1501656534060"
+        }
+      },
+      "jobName": "paragraph_1462580430733_-568231386",
+      "id": "20160507-002030_673941601_q_SK2G716GQN1568359835",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "For rank 4 the RMSE is 0.94336982415\nFor rank 8 the RMSE is 0.950394722851\nFor rank 12 the RMSE is 0.953129732419\nThe best model was trained with rank 4\n"
+      },
+      "dateCreated": "May 7, 2016 12:20:30 AM",
+      "dateStarted": "Jan 12, 2018 8:53:58 PM",
+      "dateFinished": "Jan 12, 2018 8:54:22 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%pyspark\n\npredictions.take(3)",
+      "user": "sperambalam@qubole.com",
+      "dateUpdated": "Jan 12, 2018 8:53:56 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala",
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "JOB UI",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2Fec2-54-82-120-252.compute-1.amazonaws.com%3A8088%2Fproxy%2Fapplication_1515785680369_0001/jobs/job?spark\u003dtrue\u0026id\u003d322"
+          ],
+          "interpreterSettingId": "2CS4XJSUBnull1501656534060"
+        }
+      },
+      "jobName": "paragraph_1462580475570_-1965593419",
+      "id": "20160507-002115_1962767894_q_SK2G716GQN1568359835",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "[((563, 96610), 3.173854073329986), ((339, 96610), 3.4741189591453607), ((157, 96610), 3.0900166993358633)]\n"
+      },
+      "dateCreated": "May 7, 2016 12:21:15 AM",
+      "dateStarted": "Jan 12, 2018 8:53:58 PM",
+      "dateFinished": "Jan 12, 2018 8:54:22 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%pyspark\n\nrates_and_preds.take(3)",
+      "user": "sperambalam@qubole.com",
+      "dateUpdated": "Jan 12, 2018 8:53:56 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala",
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "JOB UI",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2Fec2-54-82-120-252.compute-1.amazonaws.com%3A8088%2Fproxy%2Fapplication_1515785680369_0001/jobs/job?spark\u003dtrue\u0026id\u003d323"
+          ],
+          "interpreterSettingId": "2CS4XJSUBnull1501656534060"
+        }
+      },
+      "jobName": "paragraph_1462580529644_496707597",
+      "id": "20160507-002209_553341645_q_SK2G716GQN1568359835",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "[((153, 3825), (3.0, 2.916630712485584)), ((609, 621), (1.0, 1.756413223567015)), ((294, 7444), (4.0, 2.9378548534596427))]\n"
+      },
+      "dateCreated": "May 7, 2016 12:22:09 AM",
+      "dateStarted": "Jan 12, 2018 8:54:22 PM",
+      "dateFinished": "Jan 12, 2018 8:54:22 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%pyspark\n\nmodel \u003d ALS.train(training_RDD, best_rank, seed\u003dseed, iterations\u003diterations,\n                      lambda_\u003dregularization_parameter)\npredictions \u003d model.predictAll(test_for_predict_RDD).map(lambda r: ((r[0], r[1]), r[2]))\nrates_and_preds \u003d test_RDD.map(lambda r: ((int(r[0]), int(r[1])), float(r[2]))).join(predictions)\nerror \u003d math.sqrt(rates_and_preds.map(lambda r: (r[1][0] - r[1][1])**2).mean())\n    \nprint \u0027For testing data the RMSE is %s\u0027 % (error)",
+      "user": "sperambalam@qubole.com",
+      "dateUpdated": "Jan 12, 2018 8:53:56 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala",
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "JOB UI",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2Fec2-54-82-120-252.compute-1.amazonaws.com%3A8088%2Fproxy%2Fapplication_1515785680369_0001/jobs/job?spark\u003dtrue\u0026id\u003d324",
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2Fec2-54-82-120-252.compute-1.amazonaws.com%3A8088%2Fproxy%2Fapplication_1515785680369_0001/jobs/job?spark\u003dtrue\u0026id\u003d325",
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2Fec2-54-82-120-252.compute-1.amazonaws.com%3A8088%2Fproxy%2Fapplication_1515785680369_0001/jobs/job?spark\u003dtrue\u0026id\u003d326",
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2Fec2-54-82-120-252.compute-1.amazonaws.com%3A8088%2Fproxy%2Fapplication_1515785680369_0001/jobs/job?spark\u003dtrue\u0026id\u003d327",
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2Fec2-54-82-120-252.compute-1.amazonaws.com%3A8088%2Fproxy%2Fapplication_1515785680369_0001/jobs/job?spark\u003dtrue\u0026id\u003d328",
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2Fec2-54-82-120-252.compute-1.amazonaws.com%3A8088%2Fproxy%2Fapplication_1515785680369_0001/jobs/job?spark\u003dtrue\u0026id\u003d329",
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2Fec2-54-82-120-252.compute-1.amazonaws.com%3A8088%2Fproxy%2Fapplication_1515785680369_0001/jobs/job?spark\u003dtrue\u0026id\u003d330",
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2Fec2-54-82-120-252.compute-1.amazonaws.com%3A8088%2Fproxy%2Fapplication_1515785680369_0001/jobs/job?spark\u003dtrue\u0026id\u003d331",
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2Fec2-54-82-120-252.compute-1.amazonaws.com%3A8088%2Fproxy%2Fapplication_1515785680369_0001/jobs/job?spark\u003dtrue\u0026id\u003d332",
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2Fec2-54-82-120-252.compute-1.amazonaws.com%3A8088%2Fproxy%2Fapplication_1515785680369_0001/jobs/job?spark\u003dtrue\u0026id\u003d333",
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2Fec2-54-82-120-252.compute-1.amazonaws.com%3A8088%2Fproxy%2Fapplication_1515785680369_0001/jobs/job?spark\u003dtrue\u0026id\u003d334",
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2Fec2-54-82-120-252.compute-1.amazonaws.com%3A8088%2Fproxy%2Fapplication_1515785680369_0001/jobs/job?spark\u003dtrue\u0026id\u003d335"
+          ],
+          "interpreterSettingId": "2CS4XJSUBnull1501656534060"
+        }
+      },
+      "jobName": "paragraph_1462580546085_1499930225",
+      "id": "20160507-002226_723480563_q_SK2G716GQN1568359835",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "For testing data the RMSE is 0.934488603122\n"
+      },
+      "dateCreated": "May 7, 2016 12:22:26 AM",
+      "dateStarted": "Jan 12, 2018 8:54:22 PM",
+      "dateFinished": "Jan 12, 2018 8:54:29 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%pyspark\n\ncomplete_ratings_raw_data \u003d sc.textFile(\"s3://paid-qubole/movieslarge/ratings.csv\")\ncomplete_ratings_raw_data_header \u003d complete_ratings_raw_data.take(1)[0]\n\n# Parse\ncomplete_ratings_data \u003d complete_ratings_raw_data.filter(lambda line: line!\u003dcomplete_ratings_raw_data_header)\\\n    .map(lambda line: line.split(\",\")).map(lambda tokens: (int(tokens[0]),int(tokens[1]),float(tokens[2]))).cache()\n    \nprint \"There are %s recommendations in the complete dataset\" % (complete_ratings_data.count())",
+      "user": "sperambalam@qubole.com",
+      "dateUpdated": "Jan 12, 2018 8:53:56 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala",
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "JOB UI",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2Fec2-54-82-120-252.compute-1.amazonaws.com%3A8088%2Fproxy%2Fapplication_1515785680369_0001/jobs/job?spark\u003dtrue\u0026id\u003d336",
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2Fec2-54-82-120-252.compute-1.amazonaws.com%3A8088%2Fproxy%2Fapplication_1515785680369_0001/jobs/job?spark\u003dtrue\u0026id\u003d337"
+          ],
+          "interpreterSettingId": "2CS4XJSUBnull1501656534060"
+        }
+      },
+      "jobName": "paragraph_1462580589733_-734260666",
+      "id": "20160507-002309_1374862582_q_SK2G716GQN1568359835",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "There are 24404096 recommendations in the complete dataset\n"
+      },
+      "dateCreated": "May 7, 2016 12:23:09 AM",
+      "dateStarted": "Jan 12, 2018 8:54:23 PM",
+      "dateFinished": "Jan 12, 2018 8:55:24 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%pyspark\n\ntraining_RDD, test_RDD \u003d complete_ratings_data.randomSplit([7, 3], seed\u003d0L)\n\ncomplete_model \u003d ALS.train(training_RDD, best_rank, seed\u003dseed, \n                           iterations\u003diterations, lambda_\u003dregularization_parameter)",
+      "user": "sperambalam@qubole.com",
+      "dateUpdated": "Jan 12, 2018 8:53:56 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala",
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "JOB UI",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2Fec2-54-82-120-252.compute-1.amazonaws.com%3A8088%2Fproxy%2Fapplication_1515785680369_0001/jobs/job?spark\u003dtrue\u0026id\u003d338",
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2Fec2-54-82-120-252.compute-1.amazonaws.com%3A8088%2Fproxy%2Fapplication_1515785680369_0001/jobs/job?spark\u003dtrue\u0026id\u003d339",
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2Fec2-54-82-120-252.compute-1.amazonaws.com%3A8088%2Fproxy%2Fapplication_1515785680369_0001/jobs/job?spark\u003dtrue\u0026id\u003d340",
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2Fec2-54-82-120-252.compute-1.amazonaws.com%3A8088%2Fproxy%2Fapplication_1515785680369_0001/jobs/job?spark\u003dtrue\u0026id\u003d341",
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2Fec2-54-82-120-252.compute-1.amazonaws.com%3A8088%2Fproxy%2Fapplication_1515785680369_0001/jobs/job?spark\u003dtrue\u0026id\u003d342",
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2Fec2-54-82-120-252.compute-1.amazonaws.com%3A8088%2Fproxy%2Fapplication_1515785680369_0001/jobs/job?spark\u003dtrue\u0026id\u003d343",
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2Fec2-54-82-120-252.compute-1.amazonaws.com%3A8088%2Fproxy%2Fapplication_1515785680369_0001/jobs/job?spark\u003dtrue\u0026id\u003d344",
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2Fec2-54-82-120-252.compute-1.amazonaws.com%3A8088%2Fproxy%2Fapplication_1515785680369_0001/jobs/job?spark\u003dtrue\u0026id\u003d345",
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2Fec2-54-82-120-252.compute-1.amazonaws.com%3A8088%2Fproxy%2Fapplication_1515785680369_0001/jobs/job?spark\u003dtrue\u0026id\u003d346"
+          ],
+          "interpreterSettingId": "2CS4XJSUBnull1501656534060"
+        }
+      },
+      "jobName": "paragraph_1462676954292_-180833932",
+      "id": "20160508-030914_1348317115_q_SK2G716GQN1568359835",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": ""
+      },
+      "dateCreated": "May 8, 2016 3:09:14 AM",
+      "dateStarted": "Jan 12, 2018 8:54:30 PM",
+      "dateFinished": "Jan 12, 2018 8:56:16 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%pyspark\n\ntest_for_predict_RDD \u003d test_RDD.map(lambda x: (x[0], x[1]))\n\npredictions \u003d complete_model.predictAll(test_for_predict_RDD).map(lambda r: ((r[0], r[1]), r[2]))\nrates_and_preds \u003d test_RDD.map(lambda r: ((int(r[0]), int(r[1])), float(r[2]))).join(predictions)\nerror \u003d math.sqrt(rates_and_preds.map(lambda r: (r[1][0] - r[1][1])**2).mean())\n    \nprint \u0027For testing data the RMSE is %s\u0027 % (error)\n",
+      "user": "sperambalam@qubole.com",
+      "dateUpdated": "Jan 12, 2018 8:53:56 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala",
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "JOB UI",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2Fec2-54-82-120-252.compute-1.amazonaws.com%3A8088%2Fproxy%2Fapplication_1515785680369_0001/jobs/job?spark\u003dtrue\u0026id\u003d347",
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2Fec2-54-82-120-252.compute-1.amazonaws.com%3A8088%2Fproxy%2Fapplication_1515785680369_0001/jobs/job?spark\u003dtrue\u0026id\u003d348",
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2Fec2-54-82-120-252.compute-1.amazonaws.com%3A8088%2Fproxy%2Fapplication_1515785680369_0001/jobs/job?spark\u003dtrue\u0026id\u003d349"
+          ],
+          "interpreterSettingId": "2CS4XJSUBnull1501656534060"
+        }
+      },
+      "jobName": "paragraph_1462581149574_-142516334",
+      "id": "20160507-003229_1209237070_q_SK2G716GQN1568359835",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "For testing data the RMSE is 0.832264597832\n"
+      },
+      "dateCreated": "May 7, 2016 12:32:29 AM",
+      "dateStarted": "Jan 12, 2018 8:55:24 PM",
+      "dateFinished": "Jan 12, 2018 8:58:16 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%pyspark\n\ncomplete_movies_raw_data \u003d sc.textFile(\"s3://paid-qubole/movieslarge/movies.csv\")\ncomplete_movies_raw_data_header \u003d complete_movies_raw_data.take(1)[0]\n\n# Parse\ncomplete_movies_data \u003d complete_movies_raw_data.filter(lambda line: line!\u003dcomplete_movies_raw_data_header)\\\n    .map(lambda line: line.split(\",\")).map(lambda tokens: (int(tokens[0]),tokens[1],tokens[2])).cache()\n\ncomplete_movies_titles \u003d complete_movies_data.map(lambda x: (int(x[0]),x[1]))\n    \nprint \"There are %s movies in the complete dataset\" % (complete_movies_titles.count())",
+      "user": "sperambalam@qubole.com",
+      "dateUpdated": "Jan 12, 2018 8:53:56 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala",
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "JOB UI",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2Fec2-54-82-120-252.compute-1.amazonaws.com%3A8088%2Fproxy%2Fapplication_1515785680369_0001/jobs/job?spark\u003dtrue\u0026id\u003d350",
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2Fec2-54-82-120-252.compute-1.amazonaws.com%3A8088%2Fproxy%2Fapplication_1515785680369_0001/jobs/job?spark\u003dtrue\u0026id\u003d351"
+          ],
+          "interpreterSettingId": "2CS4XJSUBnull1501656534060"
+        }
+      },
+      "jobName": "paragraph_1462677222517_-1975319770",
+      "id": "20160508-031342_35151039_q_SK2G716GQN1568359835",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "There are 40110 movies in the complete dataset\n"
+      },
+      "dateCreated": "May 8, 2016 3:13:42 AM",
+      "dateStarted": "Jan 12, 2018 8:56:16 PM",
+      "dateFinished": "Jan 12, 2018 8:58:18 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%pyspark\n\ndef get_counts_and_averages(ID_and_ratings_tuple):\n    nratings \u003d len(ID_and_ratings_tuple[1])\n    return ID_and_ratings_tuple[0], (nratings, float(sum(x for x in ID_and_ratings_tuple[1]))/nratings)\n\nmovie_ID_with_ratings_RDD \u003d (complete_ratings_data.map(lambda x: (x[1], x[2])).groupByKey())\nmovie_ID_with_avg_ratings_RDD \u003d movie_ID_with_ratings_RDD.map(get_counts_and_averages)\nmovie_rating_counts_RDD \u003d movie_ID_with_avg_ratings_RDD.map(lambda x: (x[0], x[1][0]))",
+      "user": "sperambalam@qubole.com",
+      "dateUpdated": "Jan 12, 2018 8:53:56 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala",
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1462677393294_1966276180",
+      "id": "20160508-031633_1122787953_q_SK2G716GQN1568359835",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": ""
+      },
+      "dateCreated": "May 8, 2016 3:16:33 AM",
+      "dateStarted": "Jan 12, 2018 8:58:17 PM",
+      "dateFinished": "Jan 12, 2018 8:58:18 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%pyspark\n\nnew_user_ID \u003d 0\n\n# The format of each line is (userID, movieID, rating)\nnew_user_ratings \u003d [\n     (0,260,9), # Star Wars (1977)\n     (0,1,8), # Toy Story (1995)\n     (0,16,7), # Casino (1995)\n     (0,25,8), # Leaving Las Vegas (1995)\n     (0,32,9), # Twelve Monkeys (a.k.a. 12 Monkeys) (1995)\n     (0,335,4), # Flintstones, The (1994)\n     (0,379,3), # Timecop (1994)\n     (0,296,7), # Pulp Fiction (1994)\n     (0,858,10) , # Godfather, The (1972)\n     (0,50,8) # Usual Suspects, The (1995)\n    ]\nnew_user_ratings_RDD \u003d sc.parallelize(new_user_ratings)\nprint \u0027New user ratings: %s\u0027 % new_user_ratings_RDD.take(10)",
+      "user": "sperambalam@qubole.com",
+      "dateUpdated": "Jan 12, 2018 8:53:56 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala",
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "JOB UI",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2Fec2-54-82-120-252.compute-1.amazonaws.com%3A8088%2Fproxy%2Fapplication_1515785680369_0001/jobs/job?spark\u003dtrue\u0026id\u003d352",
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2Fec2-54-82-120-252.compute-1.amazonaws.com%3A8088%2Fproxy%2Fapplication_1515785680369_0001/jobs/job?spark\u003dtrue\u0026id\u003d353",
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2Fec2-54-82-120-252.compute-1.amazonaws.com%3A8088%2Fproxy%2Fapplication_1515785680369_0001/jobs/job?spark\u003dtrue\u0026id\u003d354"
+          ],
+          "interpreterSettingId": "2CS4XJSUBnull1501656534060"
+        }
+      },
+      "jobName": "paragraph_1462677479222_-183576436",
+      "id": "20160508-031759_2072119699_q_SK2G716GQN1568359835",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "New user ratings: [(0, 260, 9), (0, 1, 8), (0, 16, 7), (0, 25, 8), (0, 32, 9), (0, 335, 4), (0, 379, 3), (0, 296, 7), (0, 858, 10), (0, 50, 8)]\n"
+      },
+      "dateCreated": "May 8, 2016 3:17:59 AM",
+      "dateStarted": "Jan 12, 2018 8:58:18 PM",
+      "dateFinished": "Jan 12, 2018 8:58:18 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%pyspark\n\ncomplete_data_with_new_ratings_RDD \u003d complete_ratings_data.union(new_user_ratings_RDD)",
+      "user": "sperambalam@qubole.com",
+      "dateUpdated": "Jan 12, 2018 8:53:56 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala",
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1462677517941_324738158",
+      "id": "20160508-031837_373444962_q_SK2G716GQN1568359835",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": ""
+      },
+      "dateCreated": "May 8, 2016 3:18:37 AM",
+      "dateStarted": "Jan 12, 2018 8:58:18 PM",
+      "dateFinished": "Jan 12, 2018 8:58:18 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%pyspark\n\nfrom time import time\n\nt0 \u003d time()\nnew_ratings_model \u003d ALS.train(complete_data_with_new_ratings_RDD, best_rank, seed\u003dseed, \n                              iterations\u003diterations, lambda_\u003dregularization_parameter)\ntt \u003d time() - t0\n\nprint \"New model trained in %s seconds\" % round(tt,3)",
+      "user": "sperambalam@qubole.com",
+      "dateUpdated": "Jan 12, 2018 8:53:57 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala",
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "JOB UI",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2Fec2-54-82-120-252.compute-1.amazonaws.com%3A8088%2Fproxy%2Fapplication_1515785680369_0001/jobs/job?spark\u003dtrue\u0026id\u003d355",
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2Fec2-54-82-120-252.compute-1.amazonaws.com%3A8088%2Fproxy%2Fapplication_1515785680369_0001/jobs/job?spark\u003dtrue\u0026id\u003d356",
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2Fec2-54-82-120-252.compute-1.amazonaws.com%3A8088%2Fproxy%2Fapplication_1515785680369_0001/jobs/job?spark\u003dtrue\u0026id\u003d357",
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2Fec2-54-82-120-252.compute-1.amazonaws.com%3A8088%2Fproxy%2Fapplication_1515785680369_0001/jobs/job?spark\u003dtrue\u0026id\u003d358",
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2Fec2-54-82-120-252.compute-1.amazonaws.com%3A8088%2Fproxy%2Fapplication_1515785680369_0001/jobs/job?spark\u003dtrue\u0026id\u003d359",
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2Fec2-54-82-120-252.compute-1.amazonaws.com%3A8088%2Fproxy%2Fapplication_1515785680369_0001/jobs/job?spark\u003dtrue\u0026id\u003d360",
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2Fec2-54-82-120-252.compute-1.amazonaws.com%3A8088%2Fproxy%2Fapplication_1515785680369_0001/jobs/job?spark\u003dtrue\u0026id\u003d361",
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2Fec2-54-82-120-252.compute-1.amazonaws.com%3A8088%2Fproxy%2Fapplication_1515785680369_0001/jobs/job?spark\u003dtrue\u0026id\u003d362",
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2Fec2-54-82-120-252.compute-1.amazonaws.com%3A8088%2Fproxy%2Fapplication_1515785680369_0001/jobs/job?spark\u003dtrue\u0026id\u003d363"
+          ],
+          "interpreterSettingId": "2CS4XJSUBnull1501656534060"
+        }
+      },
+      "jobName": "paragraph_1462677550209_492104453",
+      "id": "20160508-031910_500469242_q_SK2G716GQN1568359835",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "New model trained in 71.837 seconds\n"
+      },
+      "dateCreated": "May 8, 2016 3:19:10 AM",
+      "dateStarted": "Jan 12, 2018 8:58:18 PM",
+      "dateFinished": "Jan 12, 2018 8:59:30 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%pyspark\n\nnew_user_ratings_ids \u003d map(lambda x: x[1], new_user_ratings) # get just movie IDs\n# keep just those not on the ID list (thanks Lei Li for spotting the error!)\nnew_user_unrated_movies_RDD \u003d (complete_movies_data.filter(lambda x: x[0] not in new_user_ratings_ids).map(lambda x: (new_user_ID, x[0])))\n\n# Use the input RDD, new_user_unrated_movies_RDD, with new_ratings_model.predictAll() to predict new ratings for the movies\nnew_user_recommendations_RDD \u003d new_ratings_model.predictAll(new_user_unrated_movies_RDD)\n",
+      "user": "sperambalam@qubole.com",
+      "dateUpdated": "Jan 12, 2018 8:53:57 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala",
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "JOB UI",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2Fec2-54-82-120-252.compute-1.amazonaws.com%3A8088%2Fproxy%2Fapplication_1515785680369_0001/jobs/job?spark\u003dtrue\u0026id\u003d364",
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2Fec2-54-82-120-252.compute-1.amazonaws.com%3A8088%2Fproxy%2Fapplication_1515785680369_0001/jobs/job?spark\u003dtrue\u0026id\u003d365"
+          ],
+          "interpreterSettingId": "2CS4XJSUBnull1501656534060"
+        }
+      },
+      "jobName": "paragraph_1462677578597_-598612706",
+      "id": "20160508-031938_1926557452_q_SK2G716GQN1568359835",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": ""
+      },
+      "dateCreated": "May 8, 2016 3:19:38 AM",
+      "dateStarted": "Jan 12, 2018 8:58:18 PM",
+      "dateFinished": "Jan 12, 2018 8:59:30 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%pyspark\n\n# Transform new_user_recommendations_RDD into pairs of the form (Movie ID, Predicted Rating)\nnew_user_recommendations_rating_RDD \u003d new_user_recommendations_RDD.map(lambda x: (x.product, x.rating))\nnew_user_recommendations_rating_title_and_count_RDD \u003d \\\n    new_user_recommendations_rating_RDD.join(complete_movies_titles).join(movie_rating_counts_RDD)\nnew_user_recommendations_rating_title_and_count_RDD.take(3)",
+      "user": "sperambalam@qubole.com",
+      "dateUpdated": "Jan 12, 2018 8:53:57 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala",
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "JOB UI",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2Fec2-54-82-120-252.compute-1.amazonaws.com%3A8088%2Fproxy%2Fapplication_1515785680369_0001/jobs/job?spark\u003dtrue\u0026id\u003d366"
+          ],
+          "interpreterSettingId": "2CS4XJSUBnull1501656534060"
+        }
+      },
+      "jobName": "paragraph_1462677641135_-1043104955",
+      "id": "20160508-032041_1596473234_q_SK2G716GQN1568359835",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "[(90112, ((2.61478615169775, u\u0027First Love (1939)\u0027), 4)), (65538, ((4.479938502829942, u\u0027\"Young Visiters\u0027), 9)), (40964, ((1.8390213701256186, u\u0027In the Mix (2005)\u0027), 22))]\n"
+      },
+      "dateCreated": "May 8, 2016 3:20:41 AM",
+      "dateStarted": "Jan 12, 2018 8:59:30 PM",
+      "dateFinished": "Jan 12, 2018 8:59:43 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%pyspark\n\nnew_user_recommendations_rating_title_and_count_RDD \u003d \\\n    new_user_recommendations_rating_title_and_count_RDD.map(lambda r: (r[1][0][1], r[1][0][0], r[1][1]))",
+      "user": "sperambalam@qubole.com",
+      "dateUpdated": "Jan 12, 2018 8:53:57 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala",
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1462677671088_1740430744",
+      "id": "20160508-032111_1512284242_q_SK2G716GQN1568359835",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": ""
+      },
+      "dateCreated": "May 8, 2016 3:21:11 AM",
+      "dateStarted": "Jan 12, 2018 8:59:31 PM",
+      "dateFinished": "Jan 12, 2018 8:59:43 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%pyspark\n\ntop_movies \u003d new_user_recommendations_rating_title_and_count_RDD.filter(lambda r: r[2]\u003e\u003d1000).takeOrdered(1000, key\u003dlambda x: -x[1])\n\nprint (\u0027TOP recommended movies (with more than 10000 reviews):\\n%s\u0027 %\n        \u0027\\n\u0027.join(map(str, top_movies)))",
+      "user": "sperambalam@qubole.com",
+      "dateUpdated": "Jan 12, 2018 8:53:57 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala",
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "JOB UI",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2Fec2-54-82-120-252.compute-1.amazonaws.com%3A8088%2Fproxy%2Fapplication_1515785680369_0001/jobs/job?spark\u003dtrue\u0026id\u003d367"
+          ],
+          "interpreterSettingId": "2CS4XJSUBnull1501656534060"
+        }
+      },
+      "jobName": "paragraph_1462677637165_-1388609467",
+      "id": "20160508-032037_1708748818_q_SK2G716GQN1568359835",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "TOP recommended movies (with more than 10000 reviews):\n(u\u0027\"Godfather: Part II\u0027, 8.608587903545022, 34508)\n(u\u0027Seven Samurai (Shichinin no samurai) (1954)\u0027, 8.487075431194075, 13394)\n(u\u0027Star Wars: Episode V - The Empire Strikes Back (1980)\u0027, 8.42552657010832, 57625)\n(u\u0027Dr. Strangelove or: How I Learned to Stop Worrying and Love the Bomb (1964)\u0027, 8.413045459352393, 27089)\n(u\u0027Cosmos (1980)\u0027, 8.401785274725096, 1740)\n(u\u0027Band of Brothers (2001)\u0027, 8.385022227994405, 7833)\n(u\u0027Paths of Glory (1957)\u0027, 8.375729994217856, 4064)\n(u\u0027Casablanca (1942)\u0027, 8.375371434105253, 29001)\n(u\u0027Lawrence of Arabia (1962)\u0027, 8.360728527535652, 14550)\n(u\u0027Yojimbo (1961)\u0027, 8.311250301957624, 3988)\n(u\u0027\"Third Man\u0027, 8.290995497293808, 7412)\n(u\u0027\"Shawshank Redemption\u0027, 8.274614482439654, 84455)\n(u\u0027Citizen Kane (1941)\u0027, 8.27093153097249, 20165)\n(u\u0027Rear Window (1954)\u0027, 8.255263974693584, 20443)\n(u\u0027Chinatown (1974)\u0027, 8.253365806682172, 17719)\n(u\u002712 Angry Men (1957)\u0027, 8.245913921677733, 15938)\n(u\u0027Double Indemnity (1944)\u0027, 8.244840739497587, 5421)\n(u\"Schindler\u0027s List (1993)\", 8.230641154438056, 63889)\n(u\"One Flew Over the Cuckoo\u0027s Nest (1975)\", 8.22712570650491, 37995)\n(u\u0027\"Lord of the Rings: The Fellowship of the Ring\u0027, 8.225884859584696, 51871)\n(u\u0027\"Maltese Falcon\u0027, 8.219504614627871, 14001)\n(u\u0027Sunset Blvd. (a.k.a. Sunset Boulevard) (1950)\u0027, 8.211927641359372, 7606)\n(u\u0027\"Boot\u0027, 8.20995454095108, 15403)\n(u\u0027North by Northwest (1959)\u0027, 8.194503832447168, 18467)\n(u\u0027Apocalypse Now (1979)\u0027, 8.190182344634955, 26465)\n(u\u0027Goodfellas (1990)\u0027, 8.180889215239992, 32025)\n(u\u0027Cowboy Bebop (1998)\u0027, 8.175169279594048, 1039)\n(u\u0027Raiders of the Lost Ark (Indiana Jones and the Raiders of the Lost Ark) (1981)\u0027, 8.171766670952136, 56062)\n(u\u0027Wallace \u0026 Gromit: The Wrong Trousers (1993)\u0027, 8.160603373478057, 16660)\n(u\u0027\"Lord of the Rings: The Return of the King\u0027, 8.158406264606949, 46446)\n(u\u0027\"General\u0027, 8.15684031438613, 2489)\n(u\u0027Raging Bull (1980)\u0027, 8.142333504913694, 10934)\n(u\u0027\"Good\u0027, 8.141980111712876, 17546)\n(u\u0027City Lights (1931)\u0027, 8.139394007839186, 3029)\n(u\u0027\"Bridge on the River Kwai\u0027, 8.137623306865114, 14084)\n(u\u0027Wallace \u0026 Gromit: The Best of Aardman Animation (1996)\u0027, 8.134124334906915, 9524)\n(u\u0027\"Lord of the Rings: The Two Towers\u0027, 8.126513922170945, 47203)\n(u\u0027M (1931)\u0027, 8.125641208977898, 4705)\n(u\u0027Blade Runner (1982)\u0027, 8.125139106771687, 35312)\n(u\u0027\"Treasure of the Sierra Madre\u0027, 8.123480956592418, 5613)\n(u\u0027Ikiru (1952)\u0027, 8.121407207084562, 1340)\n(u\u0027Rashomon (Rash\\xf4mon) (1950)\u0027, 8.107190232414675, 4489)\n(u\u0027\"Big Sleep\u0027, 8.106590012509614, 6134)\n(u\u0027Cool Hand Luke (1967)\u0027, 8.105480923026924, 12726)\n(u\u0027On the Waterfront (1954)\u0027, 8.101470078366127, 6230)\n(u\"Once Upon a Time in the West (C\u0027era una volta il West) (1968)\", 8.100758606085108, 5374)\n(u\u0027Ran (1985)\u0027, 8.099224316310421, 5386)\n(u\u0027Monty Python and the Holy Grail (1975)\u0027, 8.098285273872836, 37306)\n(u\u0027Wallace \u0026 Gromit: A Close Shave (1995)\u0027, 8.083489199370849, 13435)\n(u\u0027When We Were Kings (1996)\u0027, 8.079751099734619, 3985)\n(u\u0027To Kill a Mockingbird (1962)\u0027, 8.07493127679025, 16738)\n(u\u0027\"Sting\u0027, 8.055437204814357, 16899)\n(u\u0027Fargo (1996)\u0027, 8.051446980292493, 50463)\n(u\u0027\"Manchurian Candidate\u0027, 8.037824590641108, 10003)\n(u\u0027Vertigo (1958)\u0027, 8.03441020118128, 16545)\n(u\u0027Taxi Driver (1976)\u0027, 8.027255835728539, 29909)\n(u\u0027City of God (Cidade de Deus) (2002)\u0027, 8.023282493372708, 18237)\n(u\u0027L.A. Confidential (1997)\u0027, 8.01979833915391, 30874)\n(u\u0027Patton (1970)\u0027, 8.019417244164593, 9200)\n(u\u0027Sanjuro (Tsubaki Sanj\\xfbr\\xf4) (1962)\u0027, 8.017638551524351, 1362)\n(u\u0027\"Silence of the Lambs\u0027, 8.015689884777487, 80274)\n(u\u0027Touch of Evil (1958)\u0027, 8.013859834954525, 5052)\n(u\u0027\"Great Escape\u0027, 8.012114570699946, 12149)\n(u\u0027\"Hustler\u0027, 8.010989901295794, 4397)\n(u\u0027Out of the Past (1947)\u0027, 8.00353340733826, 1170)\n(u\u0027\"Lives of Others\u0027, 7.998214931816193, 8241)\n(u\u0027Duck Soup (1933)\u0027, 7.991335528009071, 6072)\n(u\u0027\"Battle of Algiers\u0027, 7.982993163279913, 1449)\n(u\u0027Notorious (1946)\u0027, 7.979880728807336, 5353)\n(u\u0027Strangers on a Train (1951)\u0027, 7.979313371124582, 5774)\n(u\u0027Grand Illusion (La grande illusion) (1937)\u0027, 7.972044452944136, 1721)\n(u\u0027High Noon (1952)\u0027, 7.958085651759948, 5422)\n(u\u0027\"Man Who Shot Liberty Valance\u0027, 7.957655658510986, 2003)\n(u\u0027Alien (1979)\u0027, 7.956332083348065, 35360)\n(u\u0027Throne of Blood (Kumonosu j\\xf4) (1957)\u0027, 7.948511742818582, 1234)\n(u\u0027Modern Times (1936)\u0027, 7.946699397274786, 4791)\n(u\u0027Psycho (1960)\u0027, 7.94000123299706, 22212)\n(u\u0027Stalag 17 (1953)\u0027, 7.9382234887776, 3006)\n(u\u0027This Is Spinal Tap (1984)\u0027, 7.934649084564783, 17704)\n(u\u0027Henry V (1989)\u0027, 7.926939540581465, 4886)\n(u\u0027Voices from the List (2004)\u0027, 7.923921981890366, 1826)\n(u\u0027\"Wild Bunch\u0027, 7.922935351180432, 3429)\n(u\u0027\"Killing\u0027, 7.919422496901703, 2310)\n(u\u0027\"Gold Rush\u0027, 7.919327537231946, 2345)\n(u\u00272001: A Space Odyssey (1968)\u0027, 7.917628595311086, 28630)\n(u\u0027Unforgiven (1992)\u0027, 7.90014485303864, 15641)\n(u\u0027\"Conversation\u0027, 7.900066492264429, 4390)\n(u\u0027American Beauty (1999)\u0027, 7.898771749204298, 54819)\n(u\u0027\"400 Blows\u0027, 7.898523221796156, 3204)\n(u\u0027Butch Cassidy and the Sundance Kid (1969)\u0027, 7.894656976772662, 17225)\n(u\u0027\"Thin Man\u0027, 7.890093570413587, 3564)\n(u\u0027\"Maltese Falcon\u0027, 7.886618012516692, 3015)\n(u\u0027Bicycle Thieves (a.k.a. The Bicycle Thief) (a.k.a. The Bicycle Thieves) (Ladri di biciclette) (1948)\u0027, 7.886180688599303, 3770)\n(u\u0027All About Eve (1950)\u0027, 7.876192342276061, 5302)\n(u\u0027Spirited Away (Sen to Chihiro no kamikakushi) (2001)\u0027, 7.873142864070288, 18800)\n(u\u0027\"Deer Hunter\u0027, 7.872526628463296, 11926)\n(u\"All the President\u0027s Men (1976)\", 7.871673816681447, 5073)\n(u\u0027All Quiet on the Western Front (1930)\u0027, 7.869483344159901, 2793)\n(u\u0027Witness for the Prosecution (1957)\u0027, 7.867386450656781, 1942)\n(u\u0027Shadow of a Doubt (1943)\u0027, 7.864515207801886, 2382)\n(u\u0027\"Fog of War: Eleven Lessons from the Life of Robert S. McNamara\u0027, 7.863616313743715, 2950)\n(u\u0027Black Mirror (2011)\u0027, 7.861941361225044, 2477)\n(u\u0027Memento (2000)\u0027, 7.8593151719935435, 37631)\n(u\u0027Amadeus (1984)\u0027, 7.856016456977294, 22497)\n(u\u0027\"Searchers\u0027, 7.855303913839023, 2349)\n(u\u0027\"Killing Fields\u0027, 7.8513021665049205, 7864)\n(u\u0027Creature Comforts (1989)\u0027, 7.8488470933072785, 2697)\n(u\u0027Reservoir Dogs (1992)\u0027, 7.8483780616189, 32836)\n(u\u0027Kagemusha (1980)\u0027, 7.847717583823398, 1473)\n(u\u0027\"Man for All Seasons\u0027, 7.839805931781394, 2273)\n(u\u0027Stop Making Sense (1984)\u0027, 7.8392197522983915, 2381)\n(u\u0027Hoop Dreams (1994)\u0027, 7.833164078800779, 11323)\n(u\u0027\"Graduate\u0027, 7.828859229696334, 19276)\n(u\u0027Annie Hall (1977)\u0027, 7.828726824939396, 18236)\n(u\u0027\"Killer\u0027, 7.827819861226603, 3002)\n(u\u0027Anatomy of a Murder (1959)\u0027, 7.827297921288869, 1958)\n(u\u0027His Girl Friday (1940)\u0027, 7.826673811257034, 4318)\n(u\u0027Saving Private Ryan (1998)\u0027, 7.819381745539973, 47628)\n(u\u0027\"Grand Day Out with Wallace and Gromit\u0027, 7.819202397268558, 8940)\n(u\u0027It Happened One Night (1934)\u0027, 7.818608649220569, 4525)\n(u\u0027\"Night of the Hunter\u0027, 7.818526204589215, 1676)\n(u\u0027\"Seventh Seal\u0027, 7.817972069293603, 4945)\n(u\u0027Breaker Morant (1980)\u0027, 7.8171901744181875, 1853)\n(u\u0027Fight Club (1999)\u0027, 7.812693858833069, 54376)\n(u\u0027\"Man Who Would Be King\u0027, 7.811343240741153, 3803)\n(u\u0027\"Princess Bride\u0027, 7.809921903008486, 39016)\n(u\u0027\"Thin Blue Line\u0027, 7.805533368005852, 2931)\n(u\u0027\"Best Years of Our Lives\u0027, 7.797297419366926, 1936)\n(u\u0027Paradise Lost: The Child Murders at Robin Hood Hills (1996)\u0027, 7.797156412842957, 1733)\n(u\u0027\"Matrix\u0027, 7.79655666016812, 71450)\n(u\u0027\"Grapes of Wrath\u0027, 7.786418458102049, 3965)\n(u\u0027Full Metal Jacket (1987)\u0027, 7.785806294390346, 24775)\n(u\u0027Aliens (1986)\u0027, 7.781891607663122, 31344)\n(u\u0027Wild Strawberries (Smultronst\\xe4llet) (1957)\u0027, 7.780156921445762, 1963)\n(u\u0027In the Heat of the Night (1967)\u0027, 7.779289772276504, 3698)\n(u\u0027Cinema Paradiso (Nuovo cinema Paradiso) (1989)\u0027, 7.779262785258404, 11089)\n(u\u0027\"Christmas Story\u0027, 7.777056370603831, 14209)\n(u\u0027Network (1976)\u0027, 7.776762706632129, 5883)\n(u\u0027No Country for Old Men (2007)\u0027, 7.776636107730318, 14554)\n(u\u0027Manhattan (1979)\u0027, 7.7699799181999865, 9721)\n(u\u0027\"French Connection\u0027, 7.767855979197197, 9773)\n(u\u0027Inherit the Wind (1960)\u0027, 7.765843153085347, 2064)\n(u\u0027Hearts of Darkness: A Filmmakers Apocalypse (1991)\u0027, 7.765483978903178, 1071)\n(u\"Miller\u0027s Crossing (1990)\", 7.764966400876367, 6716)\n(u\u0027\"Great Dictator\u0027, 7.759650094560897, 4501)\n(u\u0027Grave of the Fireflies (Hotaru no haka) (1988)\u0027, 7.7593057207112315, 4158)\n(u\u0027There Will Be Blood (2007)\u0027, 7.757821872759906, 7763)\n(u\u0027Star Wars: Episode VI - Return of the Jedi (1983)\u0027, 7.755646376186542, 59467)\n(u\u0027\"African Queen\u0027, 7.751306796372646, 11575)\n(u\u0027Louis C.K.: Chewed Up (2008)\u0027, 7.746513599520513, 1243)\n(u\u0027For a Few Dollars More (Per qualche dollaro in pi\\xf9) (1965)\u0027, 7.740660942855493, 5439)\n(u\u0027Jean de Florette (1986)\u0027, 7.732300670741394, 3471)\n(u\u0027Mr. Smith Goes to Washington (1939)\u0027, 7.731167505515205, 6539)\n(u\u0027\"Night at the Opera\u0027, 7.729595233370996, 1754)\n(u\u0027Some Like It Hot (1959)\u0027, 7.726376526052193, 12980)\n(u\u0027Children of Paradise (Les enfants du paradis) (1945)\u0027, 7.724273408735204, 1115)\n(u\u0027\"Lady Eve\u0027, 7.722492724575739, 1474)\n(u\"It\u0027s a Wonderful Life (1946)\", 7.720566527151025, 16716)\n(u\u0027\"Clockwork Orange\u0027, 7.719547974038543, 28905)\n(u\u0027\"Shining\u0027, 7.717828721005047, 27996)\n(u\u0027\"Downfall (Untergang\u0027, 7.717432421643582, 5351)\n(u\u0027Louis C.K.: Hilarious (2010)\u0027, 7.71678274363971, 1577)\n(u\u0027Some Folks Call It a Sling Blade (1993)\u0027, 7.7133141630885955, 2800)\n(u\u0027Blood Simple (1984)\u0027, 7.713120815821461, 5539)\n(u\u0027Nausica\\xe4 of the Valley of the Wind (Kaze no tani no Naushika) (1984)\u0027, 7.712565613121633, 4601)\n(u\u0027\"Philadelphia Story\u0027, 7.707662899961163, 7585)\n(u\u0027Rebecca (1940)\u0027, 7.705356093769118, 5229)\n(u\u0027\"Last Waltz\u0027, 7.703821687245607, 1028)\n(u\u0027\"Lady Vanishes\u0027, 7.7038193493352605, 2378)\n(u\u0027Diabolique (Les diaboliques) (1955)\u0027, 7.701696637815433, 1260)\n(u\u0027Crimes and Misdemeanors (1989)\u0027, 7.699788660420273, 4251)\n(u\u0027My Neighbor Totoro (Tonari no Totoro) (1988)\u0027, 7.699757671070104, 8072)\n(u\u0027Laura (1944)\u0027, 7.698111889138905, 2895)\n(u\u0027Young Frankenstein (1974)\u0027, 7.6902449702686155, 16872)\n(u\u0027Raise the Red Lantern (Da hong deng long gao gao gua) (1991)\u0027, 7.687746324837355, 3507)\n(u\u0027\"Hidden Fortress\u0027, 7.687148806743574, 1115)\n(u\u0027Glory (1989)\u0027, 7.678999572935368, 13548)\n(u\u0027\"Nights of Cabiria (Notti di Cabiria\u0027, 7.678237694535799, 1271)\n(u\u0027\"Lion in Winter\u0027, 7.676998830982758, 1739)\n(u\u0027\"39 Steps\u0027, 7.676187900005442, 3940)\n(u\u0027\"Unforgiven\u0027, 7.675579277296986, 1223)\n(u\u0027\"Dark Knight\u0027, 7.673901440497085, 34603)\n(u\u0027\"Amelie (Fabuleux destin d\\\u0027Am\\xe9lie Poulain\u0027, 7.672086294366341, 31610)\n(u\u0027Princess Mononoke (Mononoke-hime) (1997)\u0027, 7.669099884357341, 12086)\n(u\u0027Louis C.K.: Live at the Beacon Theater (2011)\u0027, 7.6669502124266495, 1567)\n(u\u0027Platoon (1986)\u0027, 7.666809054101449, 17609)\n(u\u0027\"Apartment\u0027, 7.664118693681682, 5911)\n(u\u0027Louis C.K.: Shameless (2007)\u0027, 7.662680895345436, 1602)\n(u\u0027\"Right Stuff\u0027, 7.662103810396223, 8629)\n(u\u002742 Up (1998)\u0027, 7.661208817179526, 1214)\n(u\u0027\"Hunt\u0027, 7.660277556734892, 1950)\n(u\u0027Gandhi (1982)\u0027, 7.657348330233123, 11532)\n(u\u0027M*A*S*H (a.k.a. MASH) (1970)\u0027, 7.6558381915123235, 13790)\n(u\u0027\"Fistful of Dollars\u0027, 7.654377510827496, 7517)\n(u\u0027\"Streetcar Named Desire\u0027, 7.652445277166712, 7516)\n(u\u0027Dog Day Afternoon (1975)\u0027, 7.650894878486902, 8113)\n(u\u0027Brazil (1985)\u0027, 7.648947654805375, 15773)\n(u\u0027You Can Count on Me (2000)\u0027, 7.6483800161916395, 3066)\n(u\u0027Midnight Cowboy (1969)\u0027, 7.647245497704688, 7073)\n(u\"Sullivan\u0027s Travels (1941)\", 7.646218751537982, 1484)\n(u\u0027Ben-Hur (1959)\u0027, 7.644426996353014, 10228)\n(u\u0027\"Outlaw Josey Wales\u0027, 7.644346957782256, 3540)\n(u\u0027Battlestar Galactica (2003)\u0027, 7.643296474019678, 4264)\n(u\"Who\u0027s Afraid of Virginia Woolf? (1966)\", 7.638906392337817, 3339)\n(u\u0027Persona (1966)\u0027, 7.638639079279567, 1477)\n(u\u0027Key Largo (1948)\u0027, 7.637370890825567, 2978)\n(u\u0027Glengarry Glen Ross (1992)\u0027, 7.633438126301448, 6646)\n(u\u0027Badlands (1973)\u0027, 7.630567815676245, 2415)\n(u\u0027Matewan (1987)\u0027, 7.62752939372368, 1171)\n(u\u0027\"Celebration\u0027, 7.626124353010495, 2572)\n(u\u0027Hud (1963)\u0027, 7.6260927952932835, 1632)\n(u\"Monty Python\u0027s Life of Brian (1979)\", 7.6239342893285205, 23485)\n(u\u0027Raiders of the Lost Ark: The Adaptation (1989)\u0027, 7.6222590263852625, 1153)\n(u\u0027Metropolis (1927)\u0027, 7.621388948405721, 6366)\n(u\u0027Once Upon a Time in America (1984)\u0027, 7.6207459771967345, 4798)\n(u\u0027\"Professional\u0027, 7.6206263075813965, 4805)\n(u\u0027Lone Star (1996)\u0027, 7.6197952339639015, 7494)\n(u\u0027Sling Blade (1996)\u0027, 7.618933035225812, 14930)\n(u\u0027Zulu (1964)\u0027, 7.618640940423535, 1103)\n(u\u0027Hard-Boiled (Lat sau san taam) (1992)\u0027, 7.618554516844768, 2991)\n(u\u0027Little Big Man (1970)\u0027, 7.6179734926577165, 4233)\n(u\u0027Manon of the Spring (Manon des sources) (1986)\u0027, 7.617805405500543, 3188)\n(u\u0027\"Secret in Their Eyes\u0027, 7.613665260702367, 1923)\n(u\u0027Raising Arizona (1987)\u0027, 7.610578893960429, 16536)\n(u\u0027American History X (1998)\u0027, 7.6082468394131135, 29576)\n(u\u0027Spartacus (1960)\u0027, 7.606206039555562, 5642)\n(u\u0027Jiro Dreams of Sushi (2011)\u0027, 7.604536461486899, 1176)\n(u\u0027Papillon (1973)\u0027, 7.604468260641555, 4883)\n(u\u0027Touching the Void (2003)\u0027, 7.603368781279446, 2497)\n(u\u0027\"Kid\u0027, 7.60331227651269, 1259)\n(u\u0027Dial M for Murder (1954)\u0027, 7.602708999613609, 6362)\n(u\"Monty Python\u0027s And Now for Something Completely Different (1971)\", 7.602017673511503, 6212)\n(u\u0027To Live (Huozhe) (1994)\u0027, 7.597613878286056, 1447)\n(u\u0027Eternal Sunshine of the Spotless Mind (2004)\u0027, 7.5939736769379325, 29270)\n(u\u0027\"Caine Mutiny\u0027, 7.5909064789514025, 1096)\n(u\u0027\"Magnificent Seven\u0027, 7.589512364322848, 4203)\n(u\u0027\"Insider\u0027, 7.589504527219814, 10209)\n(u\u0027\"Crouching Tiger\u0027, 7.589374105692942, 28909)\n(u\u0027Jaws (1975)\u0027, 7.588131615316453, 24367)\n(u\"Singin\u0027 in the Rain (1952)\", 7.585122388959552, 12032)\n(u\u0027\"Player\u0027, 7.583696477516228, 8371)\n(u\u0027Rio Bravo (1959)\u0027, 7.583339930793734, 1447)\n(u\u0027\"Day the Earth Stood Still\u0027, 7.582435357024742, 7038)\n(u\u0027Love and Death (1975)\u0027, 7.575557473475693, 1860)\n(u\u0027\"Strada\u0027, 7.5743316474236195, 1057)\n(u\u0027Being John Malkovich (1999)\u0027, 7.573694768038766, 30921)\n(u\u0027Three Days of the Condor (3 Days of the Condor) (1975)\u0027, 7.571482609674726, 3757)\n(u\u0027Monty Python Live at the Hollywood Bowl (1982)\u0027, 7.570820497960478, 2629)\n(u\u0027Old Boy (2003)\u0027, 7.569313937243455, 9469)\n(u\u0027Breaking Away (1979)\u0027, 7.565909823631945, 3351)\n(u\u0027In the Mood For Love (Fa yeung nin wa) (2000)\u0027, 7.560506282539569, 2554)\n(u\u0027Bringing Up Baby (1938)\u0027, 7.555101892239881, 4781)\n(u\u0027Life Is Beautiful (La Vita \\xe8 bella) (1997)\u0027, 7.553094448781497, 23539)\n(u\u0027Being There (1979)\u0027, 7.548605148523093, 7106)\n(u\u0027Laputa: Castle in the Sky (Tenk\\xfb no shiro Rapyuta) (1986)\u0027, 7.548269605276188, 4718)\n(u\u0027Louis C.K.: Live at The Comedy Store (2015)\u0027, 7.544439824234034, 1058)\n(u\u0027American Movie (1999)\u0027, 7.539934828609591, 2201)\n(u\u0027\"Departed\u0027, 7.537128702365779, 20959)\n(u\u0027Infernal Affairs (Mou gaan dou) (2002)\u0027, 7.537110759465069, 2308)\n(u\u0027\"Producers\u0027, 7.537028735294086, 7462)\n(u\u0027My Man Godfrey (1936)\u0027, 7.53102408461877, 1886)\n(u\u0027Serpico (1973)\u0027, 7.528863903517956, 4621)\n(u\u0027\"Big Lebowski\u0027, 7.528578194893975, 25512)\n(u\u0027Dersu Uzala (1975)\u0027, 7.52752467209112, 1095)\n(u\u0027Arsenic and Old Lace (1944)\u0027, 7.523599251906351, 7595)\n(u\u0027\"Day of the Jackal\u0027, 7.522749668017964, 1933)\n(u\u00278 1/2 (8\\xbd) (1963)\u0027, 7.522277575436745, 3500)\n(u\u0027Mister Roberts (1955)\u0027, 7.521439304515417, 2637)\n(u\u0027Seven (a.k.a. Se7en) (1995)\u0027, 7.520693400181013, 50142)\n(u\u0027Take the Money and Run (1969)\u0027, 7.520441471425613, 2448)\n(u\u0027Senna (2010)\u0027, 7.519137891114222, 1343)\n(u\u0027Three Colors: Red (Trois couleurs: Rouge) (1994)\u0027, 7.515358931244942, 8240)\n(u\u0027Hannah and Her Sisters (1986)\u0027, 7.515159468590865, 2509)\n(u\u0027Gallipoli (1981)\u0027, 7.512371400197562, 2016)\n(u\u0027Charade (1963)\u0027, 7.510592767466385, 4483)\n(u\u0027Whiplash (2014)\u0027, 7.5101932395185464, 6448)\n(u\u0027Trainspotting (1996)\u0027, 7.5051267173711596, 28035)\n(u\u0027\"Dolce Vita\u0027, 7.503784732328484, 1572)\n(u\u0027Indiana Jones and the Last Crusade (1989)\u0027, 7.503686123691238, 37301)\n(u\"Amores Perros (Love\u0027s a Bitch) (2000)\", 7.501976116390606, 6362)\n(u\u0027Deliverance (1972)\u0027, 7.501852040494488, 9604)\n(u\u0027Rushmore (1998)\u0027, 7.4993696665350305, 15676)\n(u\u0027\"Prophet\u0027, 7.498853245813084, 1440)\n(u\u0027\"Vanishing\u0027, 7.496736528972785, 1530)\n(u\u0027Tampopo (1985)\u0027, 7.494952144718695, 1865)\n(u\u0027\"Elephant Man\u0027, 7.491836083433761, 7686)\n(u\u0027FLCL (2000)\u0027, 7.490356416427229, 1007)\n(u\u0027Big Night (1996)\u0027, 7.48946115040014, 5538)\n(u\u0027To Be or Not to Be (1942)\u0027, 7.48905520262404, 1510)\n(u\u0027Gilda (1946)\u0027, 7.488551877353383, 1091)\n(u\u0027Sleuth (1972)\u0027, 7.485647069065212, 1481)\n(u\u0027\"Aguirre: The Wrath of God (Aguirre\u0027, 7.485109603905694, 1541)\n(u\u0027\"Sweet Hereafter\u0027, 7.482183183567426, 3926)\n(u\u0027\"Pianist\u0027, 7.479102374928407, 14953)\n(u\u0027Bonnie and Clyde (1967)\u0027, 7.479057458936399, 10729)\n(u\u0027\"Straight Story\u0027, 7.477711152334631, 4056)\n(u\u0027Midnight Express (1978)\u0027, 7.477236727826812, 3308)\n(u\u0027Blazing Saddles (1974)\u0027, 7.477211319088444, 11913)\n(u\u0027Gaslight (1944)\u0027, 7.475975361039171, 2190)\n(u\u0027\"War Room\u0027, 7.475685141433716, 1266)\n(u\u0027Run Lola Run (Lola rennt) (1998)\u0027, 7.474500311521952, 19584)\n(u\u0027\"Last Detail\u0027, 7.473964164224445, 1212)\n(u\u0027Moon (2009)\u0027, 7.472516224512442, 8151)\n(u\u0027\"Last Picture Show\u0027, 7.471893707508488, 2916)\n(u\u0027Battleship Potemkin (1925)\u0027, 7.470099613797376, 1995)\n(u\u0027L\\xe9on: The Professional (a.k.a. The Professional) (L\\xe9on) (1994)\u0027, 7.4692901656617074, 32178)\n(u\u0027\"Pan\\\u0027s Labyrinth (Laberinto del fauno\u0027, 7.468852098542275, 16566)\n(u\u0027Marathon Man (1976)\u0027, 7.468232765010372, 3899)\n(u\u0027Harvey (1950)\u0027, 7.4678297473463555, 3801)\n(u\u0027Swingers (1996)\u0027, 7.466430591755112, 10599)\n(u\"No Man\u0027s Land (2001)\", 7.466402225209346, 2094)\n(u\u0027Baraka (1992)\u0027, 7.464720707840542, 1774)\n(u\u0027\"Terminator\u0027, 7.460329243839973, 38220)\n(u\u0027\"Spring\u0027, 7.455739265510154, 2005)\n(u\u0027Crumb (1994)\u0027, 7.453839182059321, 6438)\n(u\u0027Let the Right One In (L\\xe5t den r\\xe4tte komma in) (2008)\u0027, 7.452751563079, 4441)\n(u\u0027\"Counterfeiters\u0027, 7.452460130150264, 1226)\n(u\u0027Braveheart (1995)\u0027, 7.451955219825001, 63920)\n(u\u0027My Life as a Dog (Mitt liv som hund) (1985)\u0027, 7.451891547696347, 3702)\n(u\u0027Before the Rain (Pred dozhdot) (1994)\u0027, 7.451431525582828, 1003)\n(u\u0027In the Name of the Father (1993)\u0027, 7.450002058688936, 10155)\n(u\u0027\"Wings of Desire (Himmel \\xfcber Berlin\u0027, 7.4490201367199225, 3995)\n(u\u0027Once Were Warriors (1994)\u0027, 7.447232200647058, 4250)\n(u\u0027\"Dirty Dozen\u0027, 7.44561524197736, 8076)\n(u\u0027Searching for Sugar Man (2012)\u0027, 7.444898537198887, 1005)\n(u\u0027\"Separation\u0027, 7.443764303887589, 1212)\n(u\u0027\"Longest Day\u0027, 7.441517852310115, 2998)\n(u\u0027Central Station (Central do Brasil) (1998)\u0027, 7.440428704298652, 2566)\n(u\u0027\"Wizard of Oz\u0027, 7.439977870101211, 25690)\n(u\u0027From Here to Eternity (1953)\u0027, 7.438731297161855, 3071)\n(u\u0027Mad Max: Fury Road (2015)\u0027, 7.438300076133803, 7836)\n(u\u0027Frankenstein (1931)\u0027, 7.435550856957653, 3746)\n(u\u0027Mutiny on the Bounty (1935)\u0027, 7.433611825450928, 1982)\n(u\u0027Paper Moon (1973)\u0027, 7.4312950225198815, 1378)\n(u\u0027Rope (1948)\u0027, 7.431160140821053, 3366)\n(u\u0027Spellbound (2002)\u0027, 7.429547138725514, 3136)\n(u\u0027Ninotchka (1939)\u0027, 7.429276023648257, 1482)\n(u\u0027Brief Encounter (1946)\u0027, 7.4285131498244406, 1010)\n(u\u0027Animal House (1978)\u0027, 7.4278609080492455, 12589)\n(u\u0027\"King of Kong\u0027, 7.427790250274389, 1767)\n(u\u0027\"Grand Budapest Hotel\u0027, 7.427688848297871, 7789)\n(u\u0027Mean Streets (1973)\u0027, 7.426388750902356, 1634)\n(u\u0027Stand by Me (1986)\u0027, 7.42322902985566, 23134)\n(u\"Howl\u0027s Moving Castle (Hauru no ugoku shiro) (2004)\", 7.420987382864267, 8377)\n(u\u0027Breathless (\\xc0 bout de souffle) (1960)\u0027, 7.42090279995391, 2030)\n(u\u0027To Catch a Thief (1955)\u0027, 7.4201130792343015, 5088)\n(u\u0027House of Games (1987)\u0027, 7.419490008882969, 2068)\n(u\u0027\"Asphalt Jungle\u0027, 7.418402603219432, 1113)\n(u\u0027\"Cabinet of Dr. Caligari\u0027, 7.4166494477346, 1597)\n(u\u0027Days of Heaven (1978)\u0027, 7.414762379230372, 1545)\n(u\u0027\"Hate (Haine\u0027, 7.412871198162528, 2608)\n(u\u0027Traffic (2000)\u0027, 7.410498663035544, 18749)\n(u\u0027\"Untouchables\u0027, 7.407230975467703, 17109)\n(u\u0027\"O Brother\u0027, 7.404860419481154, 22836)\n(u\u0027\"Sixth Sense\u0027, 7.400996391750318, 46859)\n(u\u0027Fireworks (Hana-bi) (1997)\u0027, 7.399201063497255, 1111)\n(u\u0027Hotel Rwanda (2004)\u0027, 7.399126575441833, 10812)\n(u\u0027\"Quiet Man\u0027, 7.398412971400526, 2346)\n(u\u0027\"Fish Called Wanda\u0027, 7.398359485413721, 21121)\n(u\u0027\"Nosferatu (Nosferatu\u0027, 7.39565796234424, 4246)\n(u\u0027Doctor Zhivago (1965)\u0027, 7.39531880280544, 6553)\n(u\u0027\"Adventures of Robin Hood\u0027, 7.39464304823329, 4289)\n(u\u0027Capturing the Friedmans (2003)\u0027, 7.394335645170226, 1901)\n(u\u0027East of Eden (1955)\u0027, 7.388519162203036, 2303)\n(u\u0027Lifeboat (1944)\u0027, 7.3874202729151754, 1629)\n(u\u0027\"Iron Giant\u0027, 7.385064538148909, 10054)\n(u\u0027Of Mice and Men (1939)\u0027, 7.3839407264961165, 1047)\n(u\u0027Porco Rosso (Crimson Pig) (Kurenai no buta) (1992)\u0027, 7.381763740678525, 2371)\n(u\u0027Waltz with Bashir (Vals im Bashir) (2008)\u0027, 7.38075875042956, 1432)\n(u\u0027Waiting for Guffman (1996)\u0027, 7.380292962019589, 6723)\n(u\u0027Talk to Her (Hable con Ella) (2002)\u0027, 7.377755970910793, 3902)\n(u\u0027Do the Right Thing (1989)\u0027, 7.376456718953601, 6996)\n(u\u0027\"Verdict\u0027, 7.374483967526328, 2530)\n(u\u0027\"King of Comedy\u0027, 7.374480230281374, 1908)\n(u\u0027Diner (1982)\u0027, 7.3737904821642175, 3802)\n(u\u0027High Plains Drifter (1973)\u0027, 7.367855012506537, 2752)\n(u\u0027Delicatessen (1991)\u0027, 7.367153153875934, 8036)\n(u\u0027Fitzcarraldo (1982)\u0027, 7.366257431232299, 1423)\n(u\u0027Good Will Hunting (1997)\u0027, 7.36576414340939, 35628)\n(u\u0027Wild Tales (2014)\u0027, 7.365256022811158, 1164)\n(u\u0027Five Easy Pieces (1970)\u0027, 7.363036517395011, 2259)\n(u\u0027Fanny and Alexander (Fanny och Alexander) (1982)\u0027, 7.362934341319883, 2000)\n(u\u0027Children of Men (2006)\u0027, 7.3617688192259445, 12448)\n(u\u0027Chungking Express (Chung Hing sam lam) (1994)\u0027, 7.3607974411554205, 2636)\n(u\u0027Cat on a Hot Tin Roof (1958)\u0027, 7.358089750400967, 3112)\n(u\u0027Roman Holiday (1953)\u0027, 7.356215869684091, 7020)\n(u\u0027Beauty and the Beast (La belle et la b\\xeate) (1946)\u0027, 7.3561446881897865, 1066)\n(u\u0027Mildred Pierce (1945)\u0027, 7.349859303667827, 1176)\n(u\u0027Local Hero (1983)\u0027, 7.348390386027635, 3315)\n(u\u0027\"Black Cat\u0027, 7.3481598484705035, 1651)\n(u\u0027Burnt by the Sun (Utomlyonnye solntsem) (1994)\u0027, 7.348124447171538, 1958)\n(u\u0027Snatch (2000)\u0027, 7.348082365478831, 22370)\n(u\u0027Hoosiers (a.k.a. Best Shot) (1986)\u0027, 7.347495877074697, 5141)\n(u\u0027\"Femme Nikita\u0027, 7.346651815177912, 10233)\n(u\u0027\"Spanish Prisoner\u0027, 7.345915229232618, 4743)\n(u\u0027Forbidden Planet (1956)\u0027, 7.344259558364444, 4069)\n(u\u0027\"Lock\u0027, 7.343699341213992, 18223)\n(u\u0027Adaptation (2002)\u0027, 7.343543618270004, 10643)\n(u\u0027Roger \u0026 Me (1989)\u0027, 7.343046040432582, 7956)\n(u\u0027Hope and Glory (1987)\u0027, 7.338563320103571, 1315)\n(u\u0027Star Wars: Episode VII - The Force Awakens (2015)\u0027, 7.338041626196654, 7460)\n(u\u0027\"Shot in the Dark\u0027, 7.333733850864698, 1166)\n(u\u0027Where Eagles Dare (1968)\u0027, 7.330462149935094, 1350)\n(u\u0027Sleeper (1973)\u0027, 7.326254937185615, 7655)\n(u\u0027True Grit (2010)\u0027, 7.32521628733666, 5712)\n(u\u0027Close Encounters of the Third Kind (1977)\u0027, 7.3250188284809745, 15730)\n(u\u0027Die Hard (1988)\u0027, 7.323851835072451, 35808)\n(u\u0027Down by Law (1986)\u0027, 7.323385141414125, 2911)\n(u\u0027Ghost in the Shell (K\\xf4kaku kid\\xf4tai) (1995)\u0027, 7.323324292598493, 8117)\n(u\u0027WALL\\xb7E (2008)\u0027, 7.322486099502524, 20984)\n(u\u0027\"Diving Bell and the Butterfly\u0027, 7.3217856006496485, 1986)\n(u\u0027Rosencrantz and Guildenstern Are Dead (1990)\u0027, 7.321598413655326, 4377)\n(u\u0027Suspicion (1941)\u0027, 7.32115221728492, 1519)\n(u\u0027Magnolia (1999)\u0027, 7.315604949359112, 13185)\n(u\u0027\"Odd Couple\u0027, 7.315146666682335, 3354)\n(u\u0027Dead Man Walking (1995)\u0027, 7.313541243929193, 23561)\n(u\u0027Before Sunset (2004)\u0027, 7.313438540238369, 4461)\n(u\u0027American Graffiti (1973)\u0027, 7.310944284951338, 8700)\n(u\u0027Underground (1995)\u0027, 7.310891602903088, 1319)\n(u\u0027Inside Job (2010)\u0027, 7.307741255601351, 2009)\n(u\u0027\"Good Night\u0027, 7.304775365319835, 4242)\n(u\u0027\"Thing\u0027, 7.304037263998626, 10378)\n(u\u0027\"Shop Around the Corner\u0027, 7.303428264428151, 1754)\n(u\u0027Jules and Jim (Jules et Jim) (1961)\u0027, 7.302185759140644, 1916)\n(u\u0027Secrets \u0026 Lies (1996)\u0027, 7.301851767832133, 5968)\n(u\u0027Woodstock (1970)\u0027, 7.301556972885384, 1120)\n(u\u00273-Iron (Bin-jip) (2004)\u0027, 7.300782805292322, 1257)\n(u\u0027\"Station Agent\u0027, 7.3000457249418425, 3741)\n(u\u0027\"Last Emperor\u0027, 7.299634104451188, 8039)\n(u\u0027Bullitt (1968)\u0027, 7.299416796851126, 1845)\n(u\"Ferris Bueller\u0027s Day Off (1986)\", 7.298861493330976, 26353)\n(u\u0027Terminator 2: Judgment Day (1991)\u0027, 7.298861256118461, 59409)\n(u\u0027Eat Drink Man Woman (Yin shi nan nu) (1994)\u0027, 7.298399992664323, 6478)\n(u\u0027Dirty Harry (1971)\u0027, 7.297825400928859, 6291)\n(u\u0027Scarface (1983)\u0027, 7.297167517513928, 13130)\n(u\u0027Requiem for a Dream (2000)\u0027, 7.297160688876736, 19341)\n(u\u0027Wait Until Dark (1967)\u0027, 7.296895385379747, 1249)\n(u\u0027\"Wrestler\u0027, 7.294959780473669, 5646)\n(u\u0027Midnight Run (1988)\u0027, 7.294308910385023, 5695)\n(u\u0027Akira (1988)\u0027, 7.2942375270115924, 9320)\n(u\u0027Lupin III: The Castle Of Cagliostro (Rupan sansei: Kariosutoro no shiro) (1979)\u0027, 7.2931353820461435, 1046)\n(u\u0027My Left Foot (1989)\u0027, 7.290593713214563, 6389)\n(u\u0027Nine Queens (Nueve reinas) (2000)\u0027, 7.289493601274119, 1489)\n(u\u0027Groundhog Day (1993)\u0027, 7.289429542693485, 36547)\n(u\u0027Exit Through the Gift Shop (2010)\u0027, 7.288733787141598, 2583)\n(u\u0027Spotlight (2015)\u0027, 7.287273249174428, 2783)\n(u\u0027\"Man Who Knew Too Much\u0027, 7.286989767867015, 2525)\n(u\u0027Inglourious Basterds (2009)\u0027, 7.282028095707204, 16913)\n(u\u0027Toy Story 2 (1999)\u0027, 7.28092656774919, 26904)\n(u\u0027Harold and Maude (1971)\u0027, 7.280504018538489, 9590)\n(u\u0027Peeping Tom (1960)\u0027, 7.280236975927439, 1133)\n(u\u0027Office Space (1999)\u0027, 7.279809132764678, 23780)\n(u\u0027Elite Squad (Tropa de Elite) (2007)\u0027, 7.2794762843893634, 1511)\n(u\u0027\"Sea Inside\u0027, 7.279372390336015, 1822)\n(u\u0027Paperman (2012)\u0027, 7.279270947254783, 1455)\n(u\"Adam\u0027s Rib (1949)\", 7.2731061398932155, 1053)\n(u\u0027\"City of Lost Children\u0027, 7.272700987535433, 9760)\n(u\u0027Diva (1981)\u0027, 7.272568007528262, 2733)\n(u\u0027\"Lost Weekend\u0027, 7.271380676441783, 1185)\n(u\u0027Letters from Iwo Jima (2006)\u0027, 7.270394751320479, 2833)\n(u\u0027\"Great Santini\u0027, 7.270387866840473, 1536)\n(u\u0027Top Hat (1935)\u0027, 7.269341791664511, 2210)\n(u\u0027Never Cry Wolf (1983)\u0027, 7.26644853151711, 1352)\n(u\u0027Shane (1953)\u0027, 7.2649355166373635, 1880)\n(u\u0027Richard III (1995)\u0027, 7.263062179403789, 5042)\n(u\u0027\"Winged Migration (Peuple migrateur\u0027, 7.262908179412408, 1377)\n(u\u0027Grizzly Man (2005)\u0027, 7.262664317992423, 1921)\n(u\u0027Lost in Translation (2003)\u0027, 7.262639286911282, 18774)\n(u\u0027\"Natural\u0027, 7.2622596288105985, 5410)\n(u\u0027Enron: The Smartest Guys in the Room (2005)\u0027, 7.261585713875506, 1444)\n(u\u0027Inception (2010)\u0027, 7.258479091809836, 29308)\n(u\u0027Persepolis (2007)\u0027, 7.257526168968078, 3221)\n(u\u0027\"Play It Again\u0027, 7.257203141758086, 1056)\n(u\u0027Toy Story 3 (2010)\u0027, 7.255778766014392, 10963)\n(u\u0027Hamlet (1996)\u0027, 7.254719692671262, 7026)\n(u\u0027Man on Wire (2008)\u0027, 7.253816707389267, 1684)\n(u\u0027Barry Lyndon (1975)\u0027, 7.253426953792318, 2766)\n(u\u0027In the Loop (2009)\u0027, 7.2522712879184965, 1239)\n(u\u0027Rocky (1976)\u0027, 7.252260959874758, 16609)\n(u\u0027Dangerous Liaisons (1988)\u0027, 7.251654294902573, 8570)\n(u\u0027Airplane! (1980)\u0027, 7.250036986241401, 21100)\n(u\"Dr. Horrible\u0027s Sing-Along Blog (2008)\", 7.24837146344956, 4277)\n(u\u0027American Splendor (2003)\u0027, 7.2476149457319305, 4053)\n(u\u0027Kill Bill: Vol. 1 (2003)\u0027, 7.246825754805114, 29291)\n(u\"Babette\u0027s Feast (Babettes g\\xe6stebud) (1987)\", 7.2458727409581805, 1303)\n(u\u0027Ordinary People (1980)\u0027, 7.244607817064942, 4647)\n(u\u0027Elite Squad: The Enemy Within (Tropa de Elite 2 - O Inimigo Agora \\xc9 Outro) (2010)\u0027, 7.242505592364, 1347)\n(u\u0027\"Blue Angel\u0027, 7.2415095464213435, 1099)\n(u\u0027In America (2002)\u0027, 7.24114797456943, 2541)\n(u\u0027Mississippi Burning (1988)\u0027, 7.240407574214489, 4303)\n(u\u0027Barton Fink (1991)\u0027, 7.239957195428618, 4103)\n(u\u0027\"Taking of Pelham One Two Three\u0027, 7.239758215887396, 1799)\n(u\u0027Three Colors: Blue (Trois couleurs: Bleu) (1993)\u0027, 7.238090478150246, 7666)\n(u\u0027\"Birds\u0027, 7.237159238508542, 12819)\n(u\u0027\"Ladykillers\u0027, 7.2354859418896975, 1119)\n(u\u0027Goldfinger (1964)\u0027, 7.234770600346286, 12979)\n(u\"Monty Python\u0027s The Meaning of Life (1983)\", 7.234736457756599, 9773)\n(u\u0027Koyaanisqatsi (a.k.a. Koyaanisqatsi: Life Out of Balance) (1983)\u0027, 7.231629726460881, 3062)\n(u\u0027\"Hard Day\\\u0027s Night\u0027, 7.230127966812485, 4627)\n(u\u0027Back to the Future (1985)\u0027, 7.229338319188733, 52219)\n(u\u0027After Hours (1985)\u0027, 7.228832498040144, 1604)\n(u\u0027\"Long Goodbye\u0027, 7.227155895976508, 1096)\n(u\u0027\"Blues Brothers\u0027, 7.226639171031817, 21867)\n(u\u0027\"Charlie Brown Christmas\u0027, 7.225110189726369, 1270)\n(u\u0027Batman Begins (2005)\u0027, 7.2249184202933705, 26120)\n(u\u0027\"Fugitive\u0027, 7.224733363280631, 55654)\n(u\u0027Fantastic Mr. Fox (2009)\u0027, 7.224645909929011, 4429)\n(u\u0027\"Man Who Knew Too Much\u0027, 7.223987514059563, 1361)\n(u\u0027Buena Vista Social Club (1999)\u0027, 7.223829206246524, 2976)\n(u\u0027High Fidelity (2000)\u0027, 7.223306064789806, 17883)\n(u\u0027\"Hunt for Red October\u0027, 7.222971281567758, 23568)\n(u\u0027Mary and Max (2009)\u0027, 7.22265493049103, 2266)\n(u\"Microcosmos (Microcosmos: Le peuple de l\u0027herbe) (1996)\", 7.222162496664817, 1933)\n(u\u0027\"Exorcist\u0027, 7.22199040905004, 15307)\n(u\u0027Star Trek II: The Wrath of Khan (1982)\u0027, 7.2178623135142335, 17261)\n(u\u0027Of Mice and Men (1992)\u0027, 7.217247733431988, 3990)\n(u\u0027Best in Show (2000)\u0027, 7.216918520317544, 11903)\n(u\u0027Body Heat (1981)\u0027, 7.214921775361311, 4000)\n(u\u0027Spellbound (1945)\u0027, 7.214368650699915, 2424)\n(u\u0027Tender Mercies (1983)\u0027, 7.2134340371235455, 1822)\n(u\u0027\"Incredibles\u0027, 7.213201674788497, 26326)\n(u\u0027Marty (1955)\u0027, 7.208258851066382, 1363)\n(u\u0027Hero (Ying xiong) (2002)\u0027, 7.208241093207524, 8341)\n(u\u0027\"Proposition\u0027, 7.206871929310947, 1227)\n(u\u0027Heat (1995)\u0027, 7.20528005802894, 27243)\n(u\u0027In Bruges (2008)\u0027, 7.203031218120318, 7969)\n(u\u0027\"Mission\u0027, 7.202098482383198, 2556)\n(u\u0027\"Guns of Navarone\u0027, 7.199363481534178, 3808)\n(u\u0027Moonrise Kingdom (2012)\u0027, 7.199279118139894, 5174)\n(u\u0027Repulsion (1965)\u0027, 7.198652907568336, 1289)\n(u\u0027Mystic River (2003)\u0027, 7.197315176146697, 10556)\n(u\u0027\"Prestige\u0027, 7.196871726514224, 17371)\n(u\u0027\"Bill Cosby\u0027, 7.196130185646884, 1249)\n(u\u0027Searching for Bobby Fischer (1993)\u0027, 7.195780937238272, 11593)\n(u\u0027Almost Famous (2000)\u0027, 7.1944850795102875, 21286)\n(u\u0027Donnie Darko (2001)\u0027, 7.194358366125925, 24233)\n(u\u0027\"Name of the Rose\u0027, 7.194309546646037, 6019)\n(u\u0027Eastern Promises (2007)\u0027, 7.19334444046691, 4109)\n(u\u0027Drugstore Cowboy (1989)\u0027, 7.192163429597663, 3992)\n(u\u0027Rebel Without a Cause (1955)\u0027, 7.191400929425582, 6970)\n(u\u0027\"Red Violin\u0027, 7.190040531694478, 6873)\n(u\"Kiki\u0027s Delivery Service (Majo no takky\\xfbbin) (1989)\", 7.188873470960434, 3563)\n(u\u0027All About My Mother (Todo sobre mi madre) (1999)\u0027, 7.1856042390583506, 4924)\n(u\u0027Run Silent Run Deep (1958)\u0027, 7.184427998319727, 1370)\n(u\u0027Mystery Train (1989)\u0027, 7.182505131994779, 1532)\n(u\u0027Murderball (2005)\u0027, 7.1822558676178545, 1012)\n(u\u0027Election (1999)\u0027, 7.182182318946206, 15088)\n(u\u0027Stalker (1979)\u0027, 7.181871755055849, 2245)\n(u\u0027\"Triplets of Belleville\u0027, 7.181396452056909, 3789)\n(u\u0027Nashville (1975)\u0027, 7.181274363204186, 2386)\n(u\u0027Kill Bill: Vol. 2 (2004)\u0027, 7.180851643197295, 24898)\n(u\u0027Zelig (1983)\u0027, 7.180789670158099, 1338)\n(u\u0027Everest (1998)\u0027, 7.180110290638561, 1991)\n(u\u0027Sicario (2015)\u0027, 7.179776595922944, 1692)\n(u\u0027Kolya (Kolja) (1996)\u0027, 7.179764478020161, 2510)\n(u\u0027\"Fast\u0027, 7.178909596438951, 1524)\n(u\u0027Eight Men Out (1988)\u0027, 7.178908629019431, 1876)\n(u\u0027And Your Mother Too (Y tu mam\\xe1 tambi\\xe9n) (2001)\u0027, 7.178759378786353, 5550)\n(u\u0027Lantana (2001)\u0027, 7.176879530807247, 1471)\n(u\u0027\"Corporation\u0027, 7.175049279004899, 1744)\n(u\u0027Birdman: Or (The Unexpected Virtue of Ignorance) (2014)\u0027, 7.174317112803154, 4159)\n(u\u0027In the Bedroom (2001)\u0027, 7.174148789593506, 2713)\n(u\u0027\"Bride of Frankenstein\u0027, 7.173328095684466, 2415)\n(u\u0027Clerks (1994)\u0027, 7.172301608752145, 25530)\n(u\u0027\"Discreet Charm of the Bourgeoisie\u0027, 7.170763555026749, 1052)\n(u\u0027Cape Fear (1962)\u0027, 7.170703097380795, 4822)\n(u\u0027Up (2009)\u0027, 7.169735596621893, 18786)\n(u\u0027Reversal of Fortune (1990)\u0027, 7.169573231352071, 1258)\n(u\u0027Forrest Gump (1994)\u0027, 7.169490713980748, 86629)\n(u\u0027Donnie Brasco (1997)\u0027, 7.169467269188344, 11906)\n(u\u0027Elizabeth (1998)\u0027, 7.16944988999399, 10297)\n(u\u0027Empire of the Sun (1987)\u0027, 7.168612889669769, 3688)\n(u\u0027Malcolm X (1992)\u0027, 7.168229662683123, 5179)\n(u\u0027Before Midnight (2013)\u0027, 7.164536925689651, 1367)\n(u\u0027Croupier (1998)\u0027, 7.162043521437601, 2147)\n(u\u0027Django Unchained (2012)\u0027, 7.160280912897688, 13284)\n(u\u0027Out of Sight (1998)\u0027, 7.1578029999747255, 8637)\n(u\u0027\"Barbarian Invasions\u0027, 7.157369304957621, 1300)\n(u\u0027Nightcrawler (2014)\u0027, 7.157272317757484, 3898)\n(u\u0027\"Man Without a Past\u0027, 7.156652470002079, 1346)\n(u\u0027\"Bridge Too Far\u0027, 7.156214413447204, 1258)\n(u\u0027Gladiator (2000)\u0027, 7.155191251306594, 42062)\n(u\u0027Shaun of the Dead (2004)\u0027, 7.154647430467693, 15979)\n(u\u0027\"Royal Tenenbaums\u0027, 7.15258261947187, 14908)\n(u\"Kelly\u0027s Heroes (1970)\", 7.151704828484975, 2288)\n(u\u0027Cowboy Bebop: The Movie (Cowboy Bebop: Tengoku no Tobira) (2001)\u0027, 7.149905504773328, 3177)\n(u\u0027Rain Man (1988)\u0027, 7.1438878107432195, 29790)\n(u\u0027Jeremiah Johnson (1972)\u0027, 7.143238049745336, 1546)\n(u\u0027Invasion of the Body Snatchers (1956)\u0027, 7.142739448976248, 4990)\n(u\u0027\"Year of Living Dangerously\u0027, 7.14267440633391, 2918)\n(u\u0027\"Pink Panther\u0027, 7.142616165513987, 2750)\n(u\u0027Drive (2011)\u0027, 7.141114613739758, 5708)\n(u\u0027Witness (1985)\u0027, 7.140834473638568, 12427)\n(u\u0027My Favorite Year (1982)\u0027, 7.139873436915628, 2478)\n(u\u0027Open Your Eyes (Abre los ojos) (1997)\u0027, 7.139600257485793, 2792)\n(u\u002725th Hour (2002)\u0027, 7.137364981416609, 5359)\n(u\u0027Serenity (2005)\u0027, 7.137025350413927, 10554)\n(u\u0027Say Anything... (1989)\u0027, 7.134503606250027, 10222)\n(u\u0027\"Return of Martin Guerre\u0027, 7.1312355355770025, 1704)\n(u\u0027\"Remains of the Day\u0027, 7.1294705558782985, 11397)\n(u\u0027Blue Velvet (1986)\u0027, 7.128733960236586, 10201)\n(u\u0027How the Grinch Stole Christmas! (1966)\u0027, 7.125235520809599, 1883)\n(u\u0027Fantasia (1940)\u0027, 7.12271573061482, 14053)\n(u\u0027Red Rock West (1992)\u0027, 7.120895920507204, 3616)\n(u\u0027Freaks (1932)\u0027, 7.1208389980331255, 1406)\n(u\u0027Bottle Rocket (1996)\u0027, 7.120116472488529, 4686)\n(u\u0027Million Dollar Baby (2004)\u0027, 7.120115320232658, 12574)\n(u\u0027Shall We Dance (1937)\u0027, 7.115107240255153, 1488)\n(u\u002712 Years a Slave (2013)\u0027, 7.1150071855047, 3207)\n(u\u0027Gettysburg (1993)\u0027, 7.114140098248572, 1707)\n(u\u0027Chariots of Fire (1981)\u0027, 7.114022654440937, 7937)\n(u\u0027Drunken Master (Jui kuen) (1978)\u0027, 7.111899891355718, 2157)\n(u\u0027\"Soldier\\\u0027s Story\u0027, 7.109995866965314, 1109)\n(u\u0027Wallace \u0026 Gromit in The Curse of the Were-Rabbit (2005)\u0027, 7.109332150933535, 5323)\n(u\u0027Kiss Kiss Bang Bang (2005)\u0027, 7.10806047544247, 6426)\n(u\"Rosemary\u0027s Baby (1968)\", 7.107913602182358, 9180)\n(u\u0027Dallas Buyers Club (2013)\u0027, 7.107278928205607, 4002)\n(u\u0027\"Postman\u0027, 7.106921962430811, 13309)\n(u\u0027\"Paris\u0027, 7.106741029652749, 2598)\n(u\u0027Catch-22 (1970)\u0027, 7.10516132263312, 1542)\n(u\u0027\"Simple Plan\u0027, 7.1036740480894105, 7170)\n(u\u0027Her (2013)\u0027, 7.102569214800015, 6001)\n(u\u0027\"Last King of Scotland\u0027, 7.102268641234925, 5290)\n(u\u0027Control (2007)\u0027, 7.10198315632529, 1129)\n(u\u0027Michael Clayton (2007)\u0027, 7.101515287166119, 3606)\n(u\u0027Boyz N the Hood (1991)\u0027, 7.101415213855981, 4161)\n(u\u0027Lolita (1962)\u0027, 7.099501626750898, 3422)\n(u\u0027Withnail \u0026 I (1987)\u0027, 7.0992867522662095, 1723)\n(u\u0027\"Man Who Wasn\\\u0027t There\u0027, 7.098486533078903, 4563)\n(u\u0027McCabe \u0026 Mrs. Miller (1971)\u0027, 7.097983967734069, 1500)\n(u\u0027Brick (2005)\u0027, 7.0973838260895095, 2490)\n(u\u0027Husbands and Wives (1992)\u0027, 7.096059581666561, 1093)\n(u\u0027Startup.com (2001)\u0027, 7.0960053059113894, 1112)\n(u\u0027Munich (2005)\u0027, 7.095993256665217, 5753)\n(u\u0027\"Girl Who Leapt Through Time\u0027, 7.095539316907178, 1341)\n(u\u0027The Artist (2011)\u0027, 7.095020525311865, 2050)\n(u\u0027Following (1998)\u0027, 7.094803260843715, 1522)\n(u\u0027Living in Oblivion (1995)\u0027, 7.094104622992082, 2433)\n(u\u0027Primer (2004)\u0027, 7.090917213426913, 3620)\n(u\u0027Rabbit-Proof Fence (2002)\u0027, 7.089209971770792, 2571)\n(u\u0027\"Bronx Tale\u0027, 7.088608788810619, 5482)\n(u\u0027From Russia with Love (1963)\u0027, 7.088441101612078, 8250)\n(u\u0027\"Ice Storm\u0027, 7.088312935900655, 6150)\n(u\u0027Shallow Grave (1994)\u0027, 7.086558452175854, 8044)\n(u\u0027\"Fighter\u0027, 7.0857989495625056, 3511)\n(u\u0027Inside Llewyn Davis (2013)\u0027, 7.078746751266619, 1050)\n(u\u0027Boogie Nights (1997)\u0027, 7.078592778717543, 15321)\n(u\u0027Caddyshack (1980)\u0027, 7.078432853065164, 9955)\n(u\u0027Shine (1996)\u0027, 7.0769223037953, 9027)\n(u\u0027Thirty-Two Short Films About Glenn Gould (1993)\u0027, 7.075483984915435, 1481)\n(u\u0027Frost/Nixon (2008)\u0027, 7.072367054334709, 2629)\n(u\u0027\"Celluloid Closet\u0027, 7.071408905233707, 1950)\n(u\u0027Straw Dogs (1971)\u0027, 7.070994965221741, 1197)\n(u\u0027Wonder Boys (2000)\u0027, 7.0707615063701725, 7355)\n(u\u0027Escape from Alcatraz (1979)\u0027, 7.067791021351736, 2761)\n(u\u0027This Is England (2006)\u0027, 7.067251988455344, 1566)\n(u\u0027Dirty Pretty Things (2002)\u0027, 7.067164242885694, 2446)\n(u\u0027\"Big Short\u0027, 7.066172653663391, 3272)\n(u\u0027Three Colors: White (Trzy kolory: Bialy) (1994)\u0027, 7.065724579989897, 5828)\n(u\u0027Slap Shot (1977)\u0027, 7.064467787549264, 2116)\n(u\u0027\"Assassination of Jesse James by the Coward Robert Ford\u0027, 7.064159301093384, 2231)\n(u\u0027Sideways (2004)\u0027, 7.06396690589396, 8696)\n(u\"Guess Who\u0027s Coming to Dinner (1967)\", 7.063881083672703, 2844)\n(u\u0027Mulholland Drive (2001)\u0027, 7.060823384027759, 11182)\n(u\u0027Bananas (1971)\u0027, 7.059567254103006, 3819)\n(u\u0027Prisoners (2013)\u0027, 7.057934126116761, 2855)\n(u\"Winter\u0027s Bone (2010)\", 7.057674289473318, 1791)\n(u\u0027Sydney (Hard Eight) (1996)\u0027, 7.056123896483023, 1913)\n(u\"Sophie\u0027s Choice (1982)\", 7.054587805162504, 4019)\n(u\u0027Doubt (2008)\u0027, 7.053745435568188, 2010)\n(u\u0027Inglorious Bastards (Quel maledetto treno blindato) (1978)\u0027, 7.0523198120139705, 1373)\n(u\u0027Dr. No (1962)\u0027, 7.051416912384237, 8257)\n(u\u0027Shall We Dance? (Shall We Dansu?) (1996)\u0027, 7.051185583464875, 4584)\n(u\u0027\"Dreamlife of Angels\u0027, 7.050527968689222, 1431)\n(u\u0027\"Good bye\u0027, 7.050139901490434, 5598)\n(u\u0027\"King\\\u0027s Speech\u0027, 7.0493622638320685, 11099)\n(u\u0027Enter the Dragon (1973)\u0027, 7.048183680576996, 3059)\n(u\u0027True Romance (1993)\u0027, 7.047058989776563, 16692)\n(u\u0027\"Christmas Carol\u0027, 7.046940533787453, 2292)\n(u\u0027Whale Rider (2002)\u0027, 7.046123876993904, 3951)\n(u\u0027Atlantic City (1980)\u0027, 7.0451592280213635, 2130)\n(u\u0027Dead Poets Society (1989)\u0027, 7.043365984133934, 24051)\n(u\u0027Silverado (1985)\u0027, 7.043049335606893, 1394)\n(u\u0027Ghostbusters (a.k.a. Ghost Busters) (1984)\u0027, 7.0421126914763335, 32518)\n(u\u0027\"Very Long Engagement\u0027, 7.040232498529707, 2199)\n(u\u0027In the Company of Men (1997)\u0027, 7.039887543931357, 2701)\n(u\u0027Cyrano de Bergerac (1990)\u0027, 7.03867060896149, 4399)\n(u\u0027Capote (2005)\u0027, 7.037807995709174, 4013)\n(u\u0027Shakespeare in Love (1998)\u0027, 7.037283742168945, 26141)\n(u\u0027Pale Rider (1985)\u0027, 7.036037433305572, 2832)\n(u\u0027Little Miss Sunshine (2006)\u0027, 7.035535854881481, 16561)\n(u\u0027Gran Torino (2008)\u0027, 7.035153500838962, 10405)\n(u\u0027Gone Baby Gone (2007)\u0027, 7.034871709317388, 3718)\n(u\u0027Bull Durham (1988)\u0027, 7.034754582229322, 7931)\n(u\u0027Cabaret (1972)\u0027, 7.03190465931541, 3501)\n(u\u0027Birdy (1984)\u0027, 7.031493553120699, 1444)\n(u\u0027\"Maria Full of Grace (Maria\u0027, 7.030709124658532, 2395)\n(u\u0027District 9 (2009)\u0027, 7.028404400086281, 13672)\n(u\u0027Planet of the Apes (1968)\u0027, 7.028282466192724, 14220)\n(u\u0027Better Off Dead... (1985)\u0027, 7.0276730738252535, 5777)\n(u\u0027\"Paper Chase\u0027, 7.027509606723532, 1624)\n(u\u0027Fiddler on the Roof (1971)\u0027, 7.025615563468644, 3294)\n(u\u0027E.T. the Extra-Terrestrial (1982)\u0027, 7.0252105434092735, 37574)\n(u\u0027Tinker Tailor Soldier Spy (2011)\u0027, 7.023894510710398, 1563)\n(u\u0027Stalingrad (1993)\u0027, 7.023205770865442, 1005)\n(u\u0027\"Motorcycle Diaries\u0027, 7.022085831550076, 4721)\n(u\u0027\"Commitments\u0027, 7.022044813043122, 5597)\n(u\u0027Lady Vengeance (Sympathy for Lady Vengeance) (Chinjeolhan geumjassi) (2005)\u0027, 7.021392568128917, 1352)\n(u\u0027Gods and Monsters (1998)\u0027, 7.0188317180732644, 4756)\n(u\u0027Interstellar (2014)\u0027, 7.016395284474056, 14424)\n(u\u0027Apollo 13 (1995)\u0027, 7.015096661472505, 56077)\n(u\u0027Smoke (1995)\u0027, 7.015004588465804, 6342)\n(u\u0027Metropolitan (1990)\u0027, 7.014332742707053, 1728)\n(u\u0027\"Road Warrior\u0027, 7.013725061088461, 10275)\n(u\u0027United 93 (2006)\u0027, 7.013127020531455, 1923)\n(u\u0027Klute (1971)\u0027, 7.012231008249283, 2406)\n(u\u0027Intouchables (2011)\u0027, 7.011317987129506, 8811)\n(u\u0027Hot Fuzz (2007)\u0027, 7.011143582671982, 11022)\n(u\u0027\"Room with a View\u0027, 7.011093437414704, 7379)\n(u\u0027Room (2015)\u0027, 7.010872858171544, 1928)\n(u\u0027\"Jerk\u0027, 7.010719147744153, 8149)\n(u\u0027Quiz Show (1994)\u0027, 7.0090706244072685, 21526)\n(u\u0027\"Dinner Game\u0027, 7.009006574298709, 1361)\n(u\u0027\"Winslow Boy\u0027, 7.008206063858934, 1277)\n(u\u0027Persuasion (1995)\u0027, 7.008052785448369, 3377)\n(u\u0027Together (Tillsammans) (2000)\u0027, 7.006592143724548, 1026)\n(u\u0027Three Kings (1999)\u0027, 7.006547281444925, 13831)\n(u\u0027Heavenly Creatures (1994)\u0027, 7.005060110334083, 8191)\n(u\u0027\"Fall\u0027, 7.004524890841928, 2323)\n(u\u0027Sin City (2005)\u0027, 7.004109086196797, 19989)\n(u\u0027\"Limey\u0027, 7.003760775248055, 3531)\n(u\u0027Lost Horizon (1937)\u0027, 7.002376460075887, 1126)\n(u\u0027\"Apostle\u0027, 7.000065558888454, 3149)\n(u\u0027Blow-Up (Blowup) (1966)\u0027, 6.9974853006905295, 2047)\n(u\u0027Sense and Sensibility (1995)\u0027, 6.99656652690815, 24027)\n(u\u0027Show Me Love (Fucking \\xc5m\\xe5l) (1998)\u0027, 6.9964399303726825, 1891)\n(u\u0027\"Tin Drum\u0027, 6.99607388465504, 1559)\n(u\u0027\"Last of the Mohicans\u0027, 6.995947259928229, 13696)\n(u\u0027\"Green Mile\u0027, 6.993587550996883, 27438)\n(u\u0027\"Visitor\u0027, 6.993272273689503, 1042)\n(u\u0027\"Castle\u0027, 6.992444016554564, 1340)\n(u\u0027King Kong (1933)\u0027, 6.991593822220015, 8031)\n(u\u0027Flirting With Disaster (1996)\u0027, 6.991565096081089, 3633)\n(u\u0027\"Monsters\u0027, 6.990973207545306, 31089)\n(u\u0027\"Muppet Movie\u0027, 6.990754452410933, 7939)\n(u\u0027Finding Nemo (2003)\u0027, 6.988864161016005, 30915)\n(u\u0027\"Quiet American\u0027, 6.9876175856049665, 1881)\n(u\u0027\"Dish\u0027, 6.9866847347397165, 1858)\n(u\u0027Cinderella Man (2005)\u0027, 6.984302872933721, 5311)\n(u\u0027Much Ado About Nothing (1993)\u0027, 6.983701548861612, 15171)\n(u\u0027Once (2006)\u0027, 6.983595656991461, 2898)\n(u\u0027Walkabout (1971)\u0027, 6.981065739019523, 1441)\n(u\u0027Crazy Heart (2009)\u0027, 6.980909604128714, 1109)\n(u\u0027Easy Rider (1969)\u0027, 6.978858515150337, 6022)\n(u\u0027Ninja Scroll (J\\xfbbei ninp\\xfbch\\xf4) (1995)\u0027, 6.976953922193071, 1972)\n(u\"Carlito\u0027s Way (1993)\", 6.976512727488562, 10319)\n(u\u0027Dracula (1931)\u0027, 6.976254701753944, 2337)\n(u\u0027\"Thing from Another World\u0027, 6.974793515525243, 1101)\n(u\u0027\"Devil\\\u0027s Backbone\u0027, 6.974346173381802, 1562)\n(u\u0027Farewell My Concubine (Ba wang bie ji) (1993)\u0027, 6.9742890027409015, 3932)\n(u\u0027Grosse Pointe Blank (1997)\u0027, 6.973458095324352, 15822)\n(u\"National Lampoon\u0027s Vacation (1983)\", 6.972652315443362, 6901)\n(u\u0027Radio Days (1987)\u0027, 6.969904034558879, 2347)\n(u\u0027Master and Commander: The Far Side of the World (2003)\u0027, 6.969504061649361, 7787)\n(u\u0027Volver (2006)\u0027, 6.9692913689977765, 2516)\n(u\u0027Before Sunrise (1995)\u0027, 6.968883398306671, 6435)\n(u\u0027Lost in La Mancha (2002)\u0027, 6.967908256478051, 1091)\n(u\u0027October Sky (1999)\u0027, 6.967090288012275, 8812)\n(u\u0027Ed Wood (1994)\u0027, 6.966942988879103, 17361)\n(u\u0027Sympathy for Mr. Vengeance (Boksuneun naui geot) (2002)\u0027, 6.966507207953156, 1273)\n(u\u0027Ponyo (Gake no ue no Ponyo) (2008)\u0027, 6.9644363876216415, 2412)\n(u\u0027The Hateful Eight (2015)\u0027, 6.964058522927023, 2412)\n(u\u0027Thank You for Smoking (2006)\u0027, 6.963871971678185, 9620)\n(u\u0027Dark City (1998)\u0027, 6.963655532675419, 13015)\n(u\u0027\"Last Temptation of Christ\u0027, 6.962344583598156, 2978)\n(u\u0027Moneyball (2011)\u0027, 6.962332055487475, 4327)\n(u\u0027Wall Street (1987)\u0027, 6.962292914999711, 5387)\n(u\u0027Casino Royale (2006)\u0027, 6.961422428770424, 17504)\n(u\u0027Inside Out (2015)\u0027, 6.961074780731746, 8332)\n(u\u0027Watership Down (1978)\u0027, 6.96037183977753, 2981)\n(u\u0027JFK (1991)\u0027, 6.959212318156652, 8672)\n(u\u0027\"Seven Year Itch\u0027, 6.9584381669888105, 1567)\n(u\u0027Stripes (1981)\u0027, 6.957341907534647, 9219)\n(u\u0027\"Big One\u0027, 6.956932744341131, 1070)\n(u\u0027\"Grifters\u0027, 6.956840669934755, 7011)\n(u\u0027\"Hurt Locker\u0027, 6.956810503800156, 6322)\n(u\u0027\"Purple Rose of Cairo\u0027, 6.955336392552929, 4186)\n(u\u0027\"Legend of Drunken Master\u0027, 6.954784266372503, 3264)\n(u\u0027Gone with the Wind (1939)\u0027, 6.954531612102646, 17464)\n(u\u0027Giant (1956)\u0027, 6.953895585327375, 1772)\n(u\u0027\"Girl with the Dragon Tattoo\u0027, 6.953889107627965, 4574)\n(u\u0027Bob Roberts (1992)\u0027, 6.9515091154785145, 3413)\n(u\u0027Ridicule (1996)\u0027, 6.950731928154545, 1186)\n(u\u0027Stranger Than Paradise (1984)\u0027, 6.950319591558549, 1232)\n(u\u0027\"Bourne Identity\u0027, 6.9502253477622755, 3934)\n(u\u0027\"Double Life of Veronique\u0027, 6.948020808873512, 1857)\n(u\u0027Swimming with Sharks (1995)\u0027, 6.946781092744637, 3090)\n(u\u0027Sweet and Lowdown (1999)\u0027, 6.945569926971924, 1850)\n(u\u0027Dawn of the Dead (1978)\u0027, 6.945225851617677, 3528)\n(u\u0027Little Children (2006)\u0027, 6.944383451974296, 1640)\n(u\u0027\"Day of the Doctor\u0027, 6.944348526198726, 1026)\n(u\u0027The Queen (2006)\u0027, 6.943184053153159, 2553)\n(u\u0027Short Cuts (1993)\u0027, 6.943121054621977, 5829)\n(u\u0027Zodiac (2007)\u0027, 6.940544563631432, 5796)\n(u\u0027Happiness (1998)\u0027, 6.937627894282979, 4863)\n(u\u0027Waking Ned Devine (a.k.a. Waking Ned) (1998)\u0027, 6.936414392288342, 7619)\n(u\u0027Citizenfour (2014)\u0027, 6.936285271219729, 1358)\n(u\u0027Kramer vs. Kramer (1979)\u0027, 6.936009302464877, 5590)\n(u\u0027When Harry Met Sally... (1989)\u0027, 6.934962542770473, 24301)\n(u\u0027Rush (2013)\u0027, 6.934853911017098, 2291)\n(u\u0027Ghost World (2001)\u0027, 6.93417880688418, 6775)\n(u\u0027Dogtown and Z-Boyz (2001)\u0027, 6.9340940348638025, 1086)\n(u\u0027Boyhood (2014)\u0027, 6.933787927556898, 2854)\n(u\u0027The Revenant (2015)\u0027, 6.932435802623509, 3206)\n(u\u0027Dead Man (1995)\u0027, 6.93161490923415, 3934)\n(u\u0027\"Truman Show\u0027, 6.93049339235802, 30235)\n(u\u0027Trading Places (1983)\u0027, 6.930044647558725, 10593)\n(u\u0027Duel (1971)\u0027, 6.929320819713891, 1129)\n(u\u0027\"Dark Knight Rises\u0027, 6.928744542916844, 12951)\n(u\u0027\"Blind Swordsman: Zatoichi\u0027, 6.928100168423064, 1895)\n(u\u0027Mona Lisa (1986)\u0027, 6.927806107518557, 1527)\n(u\u0027Manhunter (1986)\u0027, 6.927674529443117, 2059)\n(u\u0027Shattered Glass (2003)\u0027, 6.926687108659693, 1295)\n(u\u0027Misery (1990)\u0027, 6.926357391342947, 10012)\n(u\u0027Perfect Blue (1997)\u0027, 6.925380014839492, 1424)\n(u\"Antonia\u0027s Line (Antonia) (1995)\", 6.9244322424729585, 2706)\n(u\u0027Tora! Tora! Tora! (1970)\u0027, 6.920272787461434, 2094)\n(u\u0027Zero Dark Thirty (2012)\u0027, 6.919924256435428, 2405)\n(u\u0027Dogville (2003)\u0027, 6.919315910174099, 3631)\n(u\u0027Jesus Camp (2006)\u0027, 6.917188362313089, 1531)\n(u\u0027Ex Machina (2015)\u0027, 6.915098165465329, 6613)\n(u\u0027My Fair Lady (1964)\u0027, 6.9136092384429695, 11600)\n(u\u0027Star Trek (2009)\u0027, 6.913261608499113, 12834)\n(u\u0027Broadcast News (1987)\u0027, 6.9116910475259985, 6287)\n(u\u0027What Ever Happened to Baby Jane? (1962)\u0027, 6.909529465974545, 1610)\n(u\u0027Excalibur (1981)\u0027, 6.909492058387604, 7356)\n(u\u0027\"Warriors\u0027, 6.9079382632746045, 1440)\n(u\u0027\"Few Good Men\u0027, 6.907029106946368, 17201)\n(u\u0027Breaking the Waves (1996)\u0027, 6.906329468884173, 4152)\n(u\u0027Women on the Verge of a Nervous Breakdown (Mujeres al borde de un ataque de nervios) (1988)\u0027, 6.905595023339358, 3043)\n(u\u0027Vanya on 42nd Street (1994)\u0027, 6.9043956752553015, 1659)\n(u\u0027Zero Effect (1998)\u0027, 6.904220547099426, 2495)\n(u\u0027Ghost Dog: The Way of the Samurai (1999)\u0027, 6.902281742075758, 4866)\n(u\u0027Punch-Drunk Love (2002)\u0027, 6.900481292778237, 6155)\n(u\u0027Bowling for Columbine (2002)\u0027, 6.899812423222331, 13811)\n(u\u0027\"Beautiful Mind\u0027, 6.899513773032636, 28492)\n(u\u0027Pi (1998)\u0027, 6.8981178878755465, 10351)\n(u\u0027\"Mrs. Brown (a.k.a. Her Majesty\u0027, 6.897115249431122, 2851)\n(u\u0027\"Bourne Identity\u0027, 6.895007425028406, 26166)\n(u\u0027\"War of the Worlds\u0027, 6.894816978549833, 5634)\n(u\u0027\"Bourne Ultimatum\u0027, 6.893848539239318, 17217)\n(u\u0027Monsoon Wedding (2001)\u0027, 6.893749474059552, 3056)\n(u\u0027\"March of the Penguins (Marche de l\\\u0027empereur\u0027, 6.893738429976812, 3456)\n(u\u0027Jackie Brown (1997)\u0027, 6.890081253716679, 13139)\n(u\u0027As Good as It Gets (1997)\u0027, 6.889976698283688, 24536)\n(u\u0027Picnic at Hanging Rock (1975)\u0027, 6.889581693228704, 1861)\n(u\u0027Road to Perdition (2002)\u0027, 6.885073143395381, 9608)\n(u\u0027Trekkies (1997)\u0027, 6.882145281346507, 1895)\n(u\u00273:10 to Yuma (2007)\u0027, 6.8817016660018675, 6005)\n(u\u0027Black Swan (2010)\u0027, 6.881638431335469, 9973)\n(u\u0027Lincoln (2012)\u0027, 6.880201669614552, 1862)\n(u\u0027\"Nightmare Before Christmas\u0027, 6.879176163107358, 22464)\n(u\u0027Mystery Science Theater 3000: The Movie (1996)\u0027, 6.878226560092202, 7290)\n(u\u0027\"Candidate\u0027, 6.876174273248378, 1932)\n(u\"Ulee\u0027s Gold (1997)\", 6.876046108500319, 2582)\n(u\u0027\"Constant Gardener\u0027, 6.875514650617479, 4193)\n(u\u0027Dances with Wolves (1990)\u0027, 6.8744821610697535, 50803)\n(u\u0027No Way Out (1987)\u0027, 6.874374905989505, 2822)\n(u\u0027Evil Dead II (Dead by Dawn) (1987)\u0027, 6.874188324946271, 9049)\n(u\u0027The Machinist (2004)\u0027, 6.873268307642009, 7411)\n(u\u0027Shame (2011)\u0027, 6.872228324467619, 1018)\n(u\u0027Into the Wild (2007)\u0027, 6.871870907339377, 8229)\n(u\u0027\"Princess and the Warrior\u0027, 6.871125982114634, 1095)\n(u\u0027Milk (2008)\u0027, 6.870953411458029, 3569)\n(u\u0027Shadowlands (1993)\u0027, 6.87082333024644, 5039)\n(u\u0027\"Old Man and the Sea\u0027, 6.8708002517873314, 1352)\n(u\"Boys Don\u0027t Cry (1999)\", 6.86867039638245, 9287)\n(u\u0027Kung Fu Hustle (Gong fu) (2004)\u0027, 6.868553955596589, 4782)\n(u\u0027\"River Runs Through It\u0027, 6.866671400671125, 6462)\n(u\u0027This Film Is Not Yet Rated (2006)\u0027, 6.864584181454921, 1078)\n(u\"Breakfast at Tiffany\u0027s (1961)\", 6.864200190445256, 11979)\n(u\"Man Bites Dog (C\u0027est arriv\\xe9 pr\\xe8s de chez vous) (1992)\", 6.863041163234692, 1636)\n(u\u0027Paprika (Papurika) (2006)\u0027, 6.8613072355156035, 1912)\n(u\u0027\"Magdalene Sisters\u0027, 6.8604101978220795, 1102)\n(u\u0027Warrior (2011)\u0027, 6.859610864096376, 2033)\n(u\u0027Argo (2012)\u0027, 6.8592027865870495, 5792)\n(u\u0027\"Madness of King George\u0027, 6.858940976033689, 8342)\n(u\u0027Dancer in the Dark (2000)\u0027, 6.857418818037175, 4398)\n(u\u0027\"Hudsucker Proxy\u0027, 6.857210835296568, 12058)\n(u\u0027Gosford Park (2001)\u0027, 6.855901787808701, 7083)\n(u\u0027Big Fish (2003)\u0027, 6.855741062285388, 15853)\n(u\u0027Invasion of the Body Snatchers (1978)\u0027, 6.853649769601179, 1699)\n(u\u0027\"Game\u0027, 6.853022576631779, 18710)\n(u\u0027Mediterraneo (1991)\u0027, 6.852462516713042, 1063)\n(u\u0027Bound (1996)\u0027, 6.852258520159937, 6624)\n(u\u0027Naked (1993)\u0027, 6.851599269593329, 2044)\n(u\"Hang \u0027Em High (1968)\", 6.851340287327708, 1732)\n(u\u0027Pride and Prejudice (1995)\u0027, 6.847198682187851, 2510)\n(u\u0027\"Big Blue\u0027, 6.846713592876126, 1914)\n(u\u0027Thirteen Days (2000)\u0027, 6.845981849889849, 3718)\n(u\u0027Fast Times at Ridgemont High (1982)\u0027, 6.845725287074611, 9272)\n(u\u0027Like Water for Chocolate (Como agua para chocolate) (1992)\u0027, 6.844741617579354, 12588)\n(u\u0027\"Full Monty\u0027, 6.84364945669939, 16953)\n(u\u0027\"Return of the Pink Panther\u0027, 6.843068633703873, 6100)\n(u\u0027Heathers (1989)\u0027, 6.84115840844712, 12582)\n(u\u0027\"Ten Commandments\u0027, 6.840380497541443, 2053)\n(u\u0027\"Queen Margot (Reine Margot\u0027, 6.8396540657147815, 1632)\n(u\u0027Gattaca (1997)\u0027, 6.839245587486699, 22152)\n(u\u0027Lilya 4-Ever (Lilja 4-ever) (2002)\u0027, 6.838161115707949, 1153)\n(u\"What\u0027s Eating Gilbert Grape (1993)\", 6.837693902345066, 19038)\n(u\u0027\"Life Aquatic with Steve Zissou\u0027, 6.835998469572978, 6896)\n(u\u0027Guardians of the Galaxy (2014)\u0027, 6.8357936931950105, 9009)\n(u\u0027\"China Syndrome\u0027, 6.8352454213579374, 1078)\n(u\u0027Walk the Line (2005)\u0027, 6.834640474939368, 8323)\n(u\u0027Half Nelson (2006)\u0027, 6.834203140327059, 1204)\n(u\u0027Sexy Beast (2000)\u0027, 6.83366903973088, 2976)\n(u\u0027V for Vendetta (2006)\u0027, 6.83262359155337, 21446)\n(u\u0027\"Mighty Wind\u0027, 6.8324935019662085, 3319)\n(u\u0027Stranger than Fiction (2006)\u0027, 6.832082300313429, 8015)\n(u\u0027Catch Me If You Can (2002)\u0027, 6.830526241212602, 23128)\n(u\u0027Night on Earth (1991)\u0027, 6.830319823582613, 2594)\n(u\u0027\"They Shoot Horses\u0027, 6.829878432345116, 1134)\n(u\u0027Paris Is Burning (1990)\u0027, 6.8298693120591505, 1151)\n(u\u0027Murder on the Orient Express (1974)\u0027, 6.825847262922903, 1242)\n(u\u0027Before Night Falls (2000)\u0027, 6.825818801567221, 1041)\n(u\u0027Philadelphia (1993)\u0027, 6.8248614265872405, 21371)\n(u\u0027Solaris (Solyaris) (1972)\u0027, 6.823928499782661, 2490)\n(u\u0027\"Accused\u0027, 6.8228659776819995, 1775)\n(u\u0027Ray (2004)\u0027, 6.8226549965237755, 4755)\n(u\u0027Collateral (2004)\u0027, 6.822613462943612, 9724)\n(u\u0027Mud (2012)\u0027, 6.822383536498729, 1400)\n(u\u0027House of Flying Daggers (Shi mian mai fu) (2004)\u0027, 6.821719367558228, 4727)\n(u\u0027Black Hawk Down (2001)\u0027, 6.820547296564284, 12323)\n(u\u0027\"Umbrellas of Cherbourg\u0027, 6.820315343549886, 1608)\n(u\u0027True Grit (1969)\u0027, 6.8192897043862954, 1952)\n(u\u0027\"Man from Earth\u0027, 6.819186109353719, 2635)\n(u\u0027Beauty of the Day (Belle de jour) (1967)\u0027, 6.818564862438513, 3209)\n(u\u0027Tigerland (2000)\u0027, 6.817984794676238, 1397)\n(u\u0027Gladiator (1992)\u0027, 6.817260985466245, 3830)\n(u\u0027\"History of Violence\u0027, 6.816235394705564, 4718)\n(u\u0027\"Dead Zone\u0027, 6.815852723612413, 3670)\n(u\u0027End of Watch (2012)\u0027, 6.814769265140164, 1144)\n(u\u0027Far from Heaven (2002)\u0027, 6.814579865595114, 2239)\n(u\u0027Iron Monkey (Siu nin Wong Fei-hung ji: Tit Ma Lau) (1993)\u0027, 6.814268220589276, 1411)\n(u\u0027Ratatouille (2007)\u0027, 6.813312784971963, 14897)\n(u\u002728 Days Later (2002)\u0027, 6.812490272749396, 14843)\n(u\u0027\"Squid and the Whale\u0027, 6.812355385060832, 2242)\n(u\u0027Smoke Signals (1998)\u0027, 6.811227853574173, 2839)\n(u\u0027\"Andromeda Strain\u0027, 6.810264979853468, 2010)\n(u\u0027The Raid: Redemption (2011)\u0027, 6.8101742578416165, 1201)\n(u\u0027Army of Darkness (1993)\u0027, 6.80935524480682, 13870)\n(u\u0027\"Garden of the Finzi-Continis\u0027, 6.806726485449778, 1224)\n(u\u0027Match Point (2005)\u0027, 6.805126407323633, 4351)\n(u\u0027Go (1999)\u0027, 6.80258604258048, 9274)\n(u\u0027Tom Jones (1963)\u0027, 6.800529347882669, 1380)\n(u\u0027The Lego Movie (2014)\u0027, 6.798328606881603, 3893)\n(u\u0027West Side Story (1961)\u0027, 6.798005489922125, 9783)\n(u\u0027Inside Man (2006)\u0027, 6.796460161141318, 7450)\n(u\u0027\"Big Chill\u0027, 6.795556490580231, 7376)\n(u\u002721 Grams (2003)\u0027, 6.794472198185685, 6985)\n(u\u0027Insomnia (1997)\u0027, 6.794094489244243, 1801)\n(u\u0027\"Secret of Roan Inish\u0027, 6.793715026896989, 4267)\n(u\u0027\"Breakfast Club\u0027, 6.793683865465395, 25332)\n(u\u0027Shrek (2001)\u0027, 6.792904305363708, 40667)\n(u\u0027Ip Man (2008)\u0027, 6.7928430780866025, 2242)\n(u\u0027Looking for Richard (1996)\u0027, 6.7918535132584035, 1790)\n(u\u0027Field of Dreams (1989)\u0027, 6.7914357577180215, 13805)\n(u\u0027My Life in Pink (Ma vie en rose) (1997)\u0027, 6.789720275357105, 1941)\n(u\u0027Miracle on 34th Street (1947)\u0027, 6.787835854557351, 5474)\n(u\u0027And the Band Played On (1993)\u0027, 6.786783579567182, 1429)\n(u\u0027Syriana (2005)\u0027, 6.786379627300869, 3482)\n(u\u0027Narc (2002)\u0027, 6.786116682255239, 1787)\n(u\u0027\"Das Experiment (Experiment\u0027, 6.785972763246219, 2316)\n(u\u0027Battlestar Galactica: Razor (2007)\u0027, 6.785422042183302, 1151)\n(u\u0027Billy Elliot (2000)\u0027, 6.785324315746315, 9196)\n(u\u0027House of Sand and Fog (2003)\u0027, 6.7851095196888735, 2519)\n(u\u0027Sabrina (1954)\u0027, 6.784368223346677, 5931)\n(u\u0027\"Ghost and Mrs. Muir\u0027, 6.783714246148647, 1781)\n(u\u0027\"Girl with the Dragon Tattoo\u0027, 6.783237576841282, 5724)\n(u\u0027Layer Cake (2004)\u0027, 6.781594758066494, 3558)\n(u\u0027The Martian (2015)\u0027, 6.779611265674284, 9355)\n(u\u0027Bullets Over Broadway (1994)\u0027, 6.779107052060938, 8480)\n(u\u0027Battle Royale (Batoru rowaiaru) (2000)\u0027, 6.778754064217075, 5773)\n(u\u0027Slumdog Millionaire (2008)\u0027, 6.777886339091147, 15405)\n(u\u0027\"Mariachi\u0027, 6.775515041069882, 4940)\n(u\u0027Winnie the Pooh and the Blustery Day (1968)\u0027, 6.773221162910302, 3439)\n(u\"Nobody\u0027s Fool (1994)\", 6.770931799930754, 4061)\n(u\u0027\"Food\u0027, 6.770753108020498, 1145)\n(u\u0027Hedwig and the Angry Inch (2000)\u0027, 6.77039330901646, 2772)\n(u\u0027\"Secret World of Arrietty\u0027, 6.770145355452703, 1030)\n(u\u0027Notes on a Scandal (2006)\u0027, 6.769611811032454, 1389)\n(u\u0027Six Degrees of Separation (1993)\u0027, 6.768943688165913, 5366)\n(u\u0027\"Orphanage\u0027, 6.767260273815052, 2106)\n(u\u0027Willy Wonka \u0026 the Chocolate Factory (1971)\u0027, 6.7661887957194224, 32027)\n(u\u0027Fahrenheit 451 (1966)\u0027, 6.764851297120286, 1750)\n(u\u0027\"Jungle Book\u0027, 6.762644478656632, 10381)\n(u\u0027\"Edukators\u0027, 6.762053398497795, 1102)\n(u\u0027Margin Call (2011)\u0027, 6.761766845428499, 1067)\n(u\"Before the Devil Knows You\u0027re Dead (2007)\", 6.761448377208689, 1448)\n(u\u0027Midnight in Paris (2011)\u0027, 6.760335720572078, 4472)\n"
+      },
+      "dateCreated": "May 8, 2016 3:20:37 AM",
+      "dateStarted": "Jan 12, 2018 8:59:43 PM",
+      "dateFinished": "Jan 12, 2018 8:59:43 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%pyspark\n\nmy_movie \u003d sc.parallelize([(0, 500)]) # Quiz Show (1994)\nindividual_movie_rating_RDD \u003d new_ratings_model.predictAll(new_user_unrated_movies_RDD)\nz.show(individual_movie_rating_RDD.take(1))",
+      "user": "sperambalam@qubole.com",
+      "dateUpdated": "Jan 12, 2018 8:53:57 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "editorMode": "ace/mode/scala",
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "JOB UI",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2Fec2-54-82-120-252.compute-1.amazonaws.com%3A8088%2Fproxy%2Fapplication_1515785680369_0001/jobs/job?spark\u003dtrue\u0026id\u003d368",
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2Fec2-54-82-120-252.compute-1.amazonaws.com%3A8088%2Fproxy%2Fapplication_1515785680369_0001/jobs/job?spark\u003dtrue\u0026id\u003d369",
+            "https://api.qubole.com/cluster-proxy?encodedUrl\u003dhttp%3A%2F%2Fec2-54-82-120-252.compute-1.amazonaws.com%3A8088%2Fproxy%2Fapplication_1515785680369_0001/jobs/job?spark\u003dtrue\u0026id\u003d370"
+          ],
+          "interpreterSettingId": "2CS4XJSUBnull1501656534060"
+        }
+      },
+      "jobName": "paragraph_1462677762152_1418719367",
+      "id": "20160508-032242_212715787_q_SK2G716GQN1568359835",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": "[Rating(user\u003d0, product\u003d137020, rating\u003d2.569083671473459)]\n"
+      },
+      "dateCreated": "May 8, 2016 3:22:42 AM",
+      "dateStarted": "Jan 12, 2018 8:59:43 PM",
+      "dateFinished": "Jan 12, 2018 8:59:47 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "",
+      "user": "sperambalam@qubole.com",
+      "dateUpdated": "Jan 12, 2018 8:53:57 PM",
+      "config": {
+        "colWidth": 12.0,
+        "graph": {
+          "mode": "table",
+          "height": 300.0,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true,
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1515705245313_172258189",
+      "id": "20180111-211405_1776802466_q_SK2G716GQN1568359835",
+      "result": {
+        "code": "SUCCESS",
+        "type": "TEXT",
+        "msg": ""
+      },
+      "dateCreated": "Jan 11, 2018 9:14:05 PM",
+      "dateStarted": "Jan 12, 2018 8:59:43 PM",
+      "dateFinished": "Jan 12, 2018 8:59:43 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "Collaborative Filtering Movies Recommendation",
+  "id": "SK2G716GQN1568359835",
+  "angularObjects": {
+    "2CQM9UQUYnull1501656534073:shared_process": [],
+    "2CS1J7CKZnull1501656534081:shared_process": [],
+    "2CPQKURE1null1501656534077:shared_process": [],
+    "2CS4XJSUBnull1501656534060:shared_process": []
+  },
+  "config": {
+    "looknfeel": "default",
+    "isDashboard": false
+  },
+  "info": {},
+  "source": "FCN"
+}
